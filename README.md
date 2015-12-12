@@ -61,4 +61,4 @@ Since aliyun opensearch is a service which updated from another one, so it also 
 In this SDK, all 'index' means the index meaning, and use 'applicatin' to describe a index container.
 
 ##License
-licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
+This SDK is distributed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
