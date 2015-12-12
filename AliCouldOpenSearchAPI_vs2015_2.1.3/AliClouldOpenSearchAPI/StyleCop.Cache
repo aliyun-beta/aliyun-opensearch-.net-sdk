@@ -1,0 +1,21 @@
+<stylecopresultscache>
+  <version>11</version>
+  <project key="1956443070">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="Program.cs" parser="StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>07/06/2011 11:29:50</timestamp>
+      <milliseconds>0</milliseconds>
+    </settings>
+    <timestamp>11/13/2012 16:21:12</timestamp>
+    <milliseconds>416</milliseconds>
+    <violations>
+      <violation namespace="StyleCop.CSharp.CsParser" rule="SyntaxException" ruleCheckId="SA0102">
+        <context>A syntax error has been discovered in file C:\Users\v-nalin\Desktop\AliCould\Source\AliCloudAPI\AliCouldAPI\Program.cs on line 21.</context>
+        <line>21</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+</stylecopresultscache>
