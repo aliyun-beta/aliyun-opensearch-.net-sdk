@@ -1,12 +1,12 @@
 ﻿using AliCloudOpenSearch.com.API.Builder;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
-    [TestClass]
+    [TestFixture]
     public class FilterTest
     {
-        [TestMethod]
+        [Test]
         public void Test1()
         {
             var filter = new Filter("filed1=a");

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using AliCloudOpenSearch.com.API;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
     /// <summary>
     ///     UnitTest1 的摘要说明
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class CloudSearchApiTest : CloudSearchApiAliyunBase
     {
         private int rep;
@@ -20,26 +20,21 @@ namespace AliCloudAPITest
         /// </summary>
         public TestContext TestContext { get; set; }
 
-
-        [TestMethod]
-        public void TestTopQuery()
+        [Test]
+        public void TestAPI()
         {
-            var css = new CloudsearchAnalysis("hotel", api);
-            var result = css.GetTopQuery(100, 100);
-            var jo = JObject.Parse(result);
+            var customD2 = new Dictionary<string, object>
+            {
+                {"param1", new Dictionary<string, object> {{"a", 1}, {"b", 2}}},
+                {"param2", new object[] {"c", "d", new Dictionary<string, object> {{"e", 1}}}}
+            };
 
-            Console.WriteLine(result);
-            Assert.AreEqual("OK", jo["status"]);
+
+            var res = HttpBuildQueryHelper.FormatDictionary(customD2);
+            Console.WriteLine(res);
         }
 
-        [TestMethod]
-        public void TestUnixTimeStamp()
-        {
-            var stamp = Utilities.getUnixTimeStamp();
-            Console.WriteLine(stamp);
-        }
-
-        [TestMethod]
+        [Test]
         public void TestCreateIndex()
         {
             var appName = DateTime.UtcNow.Ticks.ToString();
@@ -54,7 +49,7 @@ namespace AliCloudAPITest
             var jo = JObject.Parse(actual);
 
             //Console.WriteLine(result);
-            Assert.AreEqual("OK", jo["status"]);
+            Assert.AreEqual("OK", (string)jo["status"]);
 
 
             actual = target.Delete(appName);
@@ -62,25 +57,22 @@ namespace AliCloudAPITest
 
             //"result":{"index_name":"4N0F6H","description":""},"status":"OK"}
             jo = JObject.Parse(actual);
-            Assert.AreEqual("OK", jo["status"]);
-            Assert.AreEqual(1, jo["result"]);
+            Assert.AreEqual("OK", (string)jo["status"]);
+            Assert.AreEqual(1, (int)jo["result"]);
         }
 
-        [TestMethod]
-        public void TestStatusIndex()
+        [Test]
+        public void TestGetErrorMessage()
         {
-            var target = new CloudsearchApplication(api); // TODO: 初始化为适当的值
+            var target = new CloudsearchApplication(api);
+            var result = target.GetErrorMessage("hotel");
 
-            var result = target.Status("hotel");
-            Console.WriteLine(result);
-            //Assert.AreEqual(expected, actual);
-            //Assert.Inconclusive("验证此测试方法的正确性。");
             var jo = JObject.Parse(result);
-            Assert.AreEqual("OK", jo["status"]);
+            Assert.AreEqual("OK", (string)jo["status"]);
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestListIndex()
         {
             var target = new CloudsearchApplication(api);
@@ -90,38 +82,46 @@ namespace AliCloudAPITest
             //Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("验证此测试方法的正确性。");
             var jo = JObject.Parse(result);
-            Assert.AreEqual("OK", jo["status"]);
+            Assert.AreEqual("OK", (string)jo["status"]);
 
             result = target.ListApplications(2, 2);
             Console.WriteLine(result);
             //Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("验证此测试方法的正确性。");
             jo = JObject.Parse(result);
-            Assert.AreEqual("OK", jo["status"]);
+            Assert.AreEqual("OK", (string)jo["status"]);
         }
 
-        [TestMethod]
-        public void TestGetErrorMessage()
+        [Test]
+        public void TestStatusIndex()
         {
-            var target = new CloudsearchApplication(api);
-            var result = target.GetErrorMessage("hotel");
+            var target = new CloudsearchApplication(api); // TODO: 初始化为适当的值
 
+            var result = target.Status("hotel");
+            Console.WriteLine(result);
+            //Assert.AreEqual(expected, actual);
+            //Assert.Inconclusive("验证此测试方法的正确性。");
             var jo = JObject.Parse(result);
-            Assert.AreEqual("OK", jo["status"]);
+            Assert.AreEqual("OK", (string)jo["status"]);
         }
 
-        [TestMethod]
-        public void TestAPI()
+
+        [Test]
+        public void TestTopQuery()
         {
-            var customD2 = new Dictionary<string, object>
-            {
-                {"param1", new Dictionary<string, object> {{"a", 1}, {"b", 2}}},
-                {"param2", new object[] {"c", "d", new Dictionary<string, object> {{"e", 1}}}}
-            };
+            var css = new CloudsearchAnalysis("hotel", api);
+            var result = css.GetTopQuery(100, 100);
+            var jo = JObject.Parse(result);
 
+            Console.WriteLine(result);
+            Assert.AreEqual("OK", (string)jo["status"]);
+        }
 
-            var res = HttpBuildQueryHelper.FormatDictionary(customD2);
-            Console.WriteLine(res);
+        [Test]
+        public void TestUnixTimeStamp()
+        {
+            var stamp = Utilities.getUnixTimeStamp();
+            Console.WriteLine(stamp);
         }
     }
 }

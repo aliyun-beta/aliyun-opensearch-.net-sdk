@@ -1,12 +1,12 @@
 ﻿using AliCloudOpenSearch.com.API.Builder;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
-    [TestClass]
+    [TestFixture]
     public class AggregateTest
     {
-        [TestMethod]
+        [Test]
         public void Test1()
         {
             var agg = new Aggregate("group_id", "count()");

@@ -1,12 +1,12 @@
 ﻿using AliCloudOpenSearch.com.API;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
-    [TestClass]
+    [TestFixture]
     public class DeserializeToModalTest
     {
-        [TestMethod]
+        [Test]
         public void TestResponseDeserialize()
         {
             var json = "{'status':'OK','request_id':'1422348642065805100373587'}";
@@ -17,7 +17,7 @@ namespace AliCloudAPITest
             Assert.AreEqual("1422348642065805100373587", deserializedObj.RequestId);
         }
 
-        [TestMethod]
+        [Test]
         public void TestResponseDeserializeWithErrors()
         {
             var json =

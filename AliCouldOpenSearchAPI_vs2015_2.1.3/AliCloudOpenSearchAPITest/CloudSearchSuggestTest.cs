@@ -1,12 +1,12 @@
 ﻿using AliCloudOpenSearch.com.API;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
-    [TestClass]
+    [TestFixture]
     public class CloudSearchSuggestTest : CloudSearchApiAliyunBase
     {
-        [TestMethod]
+        [Test]
         public void testGetSuggest()
         {
             var suggest = new CloudsearchSuggest(ApplicationName, "suggest1", api);

@@ -1,6 +1,6 @@
 ﻿using System;
 using AliCloudOpenSearch.com.API;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
@@ -8,10 +8,10 @@ namespace AliCloudAPITest
     ///     这是 CloudSearchIndexTest 的测试类，旨在
     ///     包含所有 CloudSearchIndexTest 单元测试
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class CloudSearchAnalysisTest : CloudSearchApiAliyunBase
     {
-        [TestMethod]
+        [Test]
         public void testTopQuery()
         {
             var css = new CloudsearchAnalysis("hotel", api);

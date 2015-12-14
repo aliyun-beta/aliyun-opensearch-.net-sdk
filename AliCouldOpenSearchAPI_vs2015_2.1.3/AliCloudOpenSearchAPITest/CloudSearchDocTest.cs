@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AliCloudOpenSearch.com.API;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
@@ -9,27 +9,10 @@ namespace AliCloudAPITest
     ///     这是 CloudSearchIndexTest 的测试类，旨在
     ///     包含所有 CloudSearchIndexTest 单元测试
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class CloudSearchDOcTest : CloudSearchApiAliyunBase
     {
-        [TestMethod]
-        public void TestDocDetail()
-        {
-            var target = new CloudsearchDoc(ApplicationName, api);
-            target.Add("[{'id':1,'author':'nathan'}]").Push("main");
-
-            var result = target.Detail("id", "1");
-            Assert.AreEqual("OK", result.Status);
-
-            target.Remove("1").Push("main");
-            result = target.Detail("id", "1");
-
-            //Assert.AreEqual(expected, actual);
-            //Assert.Inconclusive("验证此测试方法的正确性。");
-        }
-
-
-        [TestMethod]
+        [Test]
         public void TestDocAdd()
         {
             var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
@@ -45,7 +28,7 @@ namespace AliCloudAPITest
             //Assert.Inconclusive("验证此测试方法的正确性。");
         }
 
-        [TestMethod]
+        [Test]
         public void TestDocAdd1()
         {
             var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
@@ -61,22 +44,7 @@ namespace AliCloudAPITest
         }
 
 
-        [TestMethod]
-        public void TestDocDel()
-        {
-            var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
-
-            var result = target.Remove("999", "1").Push("main");
-
-            Console.WriteLine(result);
-            //Assert.AreEqual(expected, actual);
-            //Assert.Inconclusive("验证此测试方法的正确性。");
-
-            Assert.AreEqual("OK", result.Status);
-        }
-
-
-        [TestMethod]
+        [Test]
         public void TestDocBatchSubmit()
         {
             var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
@@ -102,7 +70,38 @@ namespace AliCloudAPITest
             var d1 = target.Detail("id", "1");
         }
 
-        [TestMethod]
+
+        [Test]
+        public void TestDocDel()
+        {
+            var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
+
+            var result = target.Remove("999", "1").Push("main");
+
+            Console.WriteLine(result);
+            //Assert.AreEqual(expected, actual);
+            //Assert.Inconclusive("验证此测试方法的正确性。");
+
+            Assert.AreEqual("OK", result.Status);
+        }
+
+        [Test]
+        public void TestDocDetail()
+        {
+            var target = new CloudsearchDoc(ApplicationName, api);
+            target.Add("[{'id':1,'author':'nathan'}]").Push("main");
+
+            var result = target.Detail("id", "1");
+            Assert.AreEqual("OK", result.Status);
+
+            target.Remove("1").Push("main");
+            result = target.Detail("id", "1");
+
+            //Assert.AreEqual(expected, actual);
+            //Assert.Inconclusive("验证此测试方法的正确性。");
+        }
+
+        [Test]
         public void TestDocUpdate()
         {
             var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值

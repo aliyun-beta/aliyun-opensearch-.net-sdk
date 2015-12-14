@@ -1,12 +1,12 @@
 ﻿using AliCloudOpenSearch.com.API.Builder;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
-    [TestClass]
+    [TestFixture]
     public class QueryTest
     {
-        [TestMethod]
+        [Test]
         public void Test1()
         {
             IBuilder qry = new Query("id1:a");
@@ -16,7 +16,7 @@ namespace AliCloudAPITest
             Assert.AreEqual("default:a", qry.BuildQuery());
         }
 
-        [TestMethod]
+        [Test]
         public void Test2()
         {
             IBuilder qry = new Query("default:a", 100);
@@ -29,7 +29,7 @@ namespace AliCloudAPITest
             Assert.AreEqual("default:a^2", qry.BuildQuery());
         }
 
-        [TestMethod]
+        [Test]
         public void Test3()
         {
             var qry = new Query("default:a", 2);

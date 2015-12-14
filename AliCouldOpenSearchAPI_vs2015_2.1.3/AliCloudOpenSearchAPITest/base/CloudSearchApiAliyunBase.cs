@@ -1,13 +1,13 @@
 ﻿using System;
 using AliCloudOpenSearch.com.API;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AliCloudAPITest
 {
     /// <summary>
     ///     UnitTest1 的摘要说明
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class CloudSearchApiAliyunBase
     {
         public const string ApplicationName = "datafiddleSearch";
@@ -42,14 +42,13 @@ namespace AliCloudAPITest
             return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
         }
 
-        #region 附加测试特性
-
+        // public static void MyClassInitialize(TestContext testContext) { }
+        // [ClassInitialize()]
+        // 在运行类中的第一个测试之前使用 ClassInitialize 运行代码
         //
         // 编写测试时，可以使用以下附加特性:
+
         //
-        // 在运行类中的第一个测试之前使用 ClassInitialize 运行代码
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
         //
         // 在类中的所有测试都已运行之后使用 ClassCleanup 运行代码
         // [ClassCleanup()]
@@ -63,7 +62,5 @@ namespace AliCloudAPITest
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-
-        #endregion
     }
 }
