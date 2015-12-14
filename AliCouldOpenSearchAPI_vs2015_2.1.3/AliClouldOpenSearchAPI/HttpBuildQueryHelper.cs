@@ -1,63 +1,59 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Web;
 
 namespace AliCloudOpenSearch.com.API
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Collections;
-    using System.Reflection;
-    using System.Web;
-
     public class HttpBuildQueryHelper
     {
-
         private static string UrlEncode(string str)
         {
-
             if (str == null)
             {
                 return null;
             }
-            String stringToEncode = HttpUtility.UrlEncode(str).Replace("+", "%20").Replace("*", "%2A").Replace("(", "%28").Replace(")", "%29").Replace("!","%21").Replace("~","%7E");
+            var stringToEncode =
+                HttpUtility.UrlEncode(str)
+                    .Replace("+", "%20")
+                    .Replace("*", "%2A")
+                    .Replace("(", "%28")
+                    .Replace(")", "%29")
+                    .Replace("!", "%21")
+                    .Replace("~", "%7E");
             return stringToEncode;
-
         }
 
         public static string Format(object value, string prefix = "q")
         {
-            if (value == null) return String.Format("{0}=", prefix);
+            if (value == null) return string.Format("{0}=", prefix);
 
-            List<String> parts = new List<string>();
+            var parts = new List<string>();
             HandleItem(value, parts, prefix);
-            return String.Join("&", parts.ToArray<String>());
+            return string.Join("&", parts.ToArray<string>());
         }
 
         public static string FormatValue(object value, string prefix = "q")
         {
-            string strValue = UrlEncode(value.ToString());
+            var strValue = UrlEncode(value.ToString());
             if (value is bool)
             {
-                strValue = (bool)value ? "1" : "0";
+                strValue = (bool) value ? "1" : "0";
             }
-            return String.IsNullOrEmpty(strValue) ? String.Empty : String.Format("{0}={1}", prefix, strValue);
+            return string.IsNullOrEmpty(strValue) ? string.Empty : string.Format("{0}={1}", prefix, strValue);
         }
 
         public static string FormatList(IList obj, string prefix = "q")
         {
-            int count = obj.Count;
+            var count = obj.Count;
             var parts = new List<string>();
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
-                string newPrefix = String.Format("{0}[{1}]", prefix, i);
+                var newPrefix = string.Format("{0}[{1}]", prefix, i);
                 HandleItem(obj[i], parts, newPrefix);
             }
-            return String.Join("&", parts.ToArray<String>());
+            return string.Join("&", parts.ToArray<string>());
         }
 
         public static string FormatDictionary(IDictionary<string, object> obj, string prefix = "")
@@ -65,12 +61,12 @@ namespace AliCloudOpenSearch.com.API
             var parts = new List<string>();
             foreach (var entry in obj)
             {
-                string newPrefix = string.IsNullOrEmpty(prefix) ?
-                    String.Format("{0}{1}", prefix, entry.Key) :
-                    String.Format("{0}[{1}]", prefix, entry.Key);
+                var newPrefix = string.IsNullOrEmpty(prefix)
+                    ? string.Format("{0}{1}", prefix, entry.Key)
+                    : string.Format("{0}[{1}]", prefix, entry.Key);
                 HandleItem(entry.Value, parts, newPrefix);
             }
-            return String.Join("&", parts.ToArray<String>());
+            return string.Join("&", parts.ToArray<string>());
         }
 
         private static void HandleItem(object value, List<string> parts, string prefix)
@@ -83,11 +79,11 @@ namespace AliCloudOpenSearch.com.API
             }
             else if (value is IList)
             {
-                parts.Add(FormatList((IList)value, prefix));
+                parts.Add(FormatList((IList) value, prefix));
             }
             else if (value is IDictionary<string, object>)
             {
-                parts.Add(FormatDictionary((IDictionary<string, object>)value, prefix));
+                parts.Add(FormatDictionary((IDictionary<string, object>) value, prefix));
             }
             else
             {
@@ -99,13 +95,13 @@ namespace AliCloudOpenSearch.com.API
         {
             if (depthLimit > 5) return obj; // prevent recursion from not ending
             if (obj == null) return obj;
-            Type type = obj.GetType();
+            var type = obj.GetType();
             if (IsStringable(obj) || IsStringableArray(obj)) return obj;
 
             if (type.IsArray)
             {
                 var parts = new List<object>();
-                foreach (object e in (IList)obj)
+                foreach (var e in (IList) obj)
                 {
                     parts.Add(Convert(e));
                 }
@@ -113,8 +109,8 @@ namespace AliCloudOpenSearch.com.API
             }
 
             var dict = new Dictionary<string, object>();
-            PropertyInfo[] props = type.GetProperties();
-            foreach (PropertyInfo prop in props)
+            var props = type.GetProperties();
+            foreach (var prop in props)
             {
                 dict.Add(prop.Name, Convert(prop.GetValue(obj, null), depthLimit + 1));
             }
@@ -123,20 +119,18 @@ namespace AliCloudOpenSearch.com.API
 
         private static bool IsStringable(object o)
         {
-            return (o is bool) || (o is byte) || (o is char) || (o is decimal) ||
-                    (o is double) || (o is float) || (o is int) || (o is long) ||
-                    (o is sbyte) || (o is short) || (o is uint) || (o is ulong) ||
-                    (o is ushort) || (o is string);
+            return o is bool || o is byte || o is char || o is decimal ||
+                   o is double || o is float || o is int || o is long ||
+                   o is sbyte || o is short || o is uint || o is ulong ||
+                   o is ushort || o is string;
         }
 
         private static bool IsStringableArray(object o)
         {
-            return (o is bool[]) || (o is byte[]) || (o is char[]) || (o is decimal[]) ||
-                    (o is double[]) || (o is float[]) || (o is int[]) || (o is long[]) ||
-                    (o is sbyte[]) || (o is short[]) || (o is uint[]) || (o is ulong[]) ||
-                    (o is ushort[]) || (o is string[]);
+            return o is bool[] || o is byte[] || o is char[] || o is decimal[] ||
+                   o is double[] || o is float[] || o is int[] || o is long[] ||
+                   o is sbyte[] || o is short[] || o is uint[] || o is ulong[] ||
+                   o is ushort[] || o is string[];
         }
     }
-
-
 }

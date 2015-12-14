@@ -1,27 +1,20 @@
-﻿using System.Dynamic;
-using AliCloudOpenSearch.com.API.Modal;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Collections.Specialized;
-using Newtonsoft.Json;
 using System.IO;
+using System.Text;
+using System.Threading;
 using System.Web;
-using Newtonsoft.Json.Linq;
+using AliCloudOpenSearch.com.API.Modal;
+using Newtonsoft.Json;
 
 namespace AliCloudOpenSearch.com.API
 {
     /// <summary>
-    /// Provides aliyun opensearch document management functions
+    ///     Provides aliyun opensearch document management functions
     /// </summary>
     public class CloudsearchDoc
     {
-        /// <summary>
-        /// The operation queue
-        /// </summary>
-        private List<Dictionary<String, Object>> _batchExecuteCachedDocs = new List<Dictionary<String, Object>>();
-
-        private const String PUSH_RETURN_STATUS_OK = "OK";
+        private const string PUSH_RETURN_STATUS_OK = "OK";
         private const int MaxTryTimes = 3;
 
 
@@ -29,14 +22,14 @@ namespace AliCloudOpenSearch.com.API
          * 在切割一个大数据块后push数据的频率。默认 5次/s。
          * @var int
          */
-        private const Int32 PUSH_FREQUENCE = 4;
+        private const int PUSH_FREQUENCE = 4;
 
 
         /**
        * POST一个文件，进行切割时的单请求的最大size。单位：MB。
        * @var int
        */
-        private const Int32 PUSH_MAX_SIZE = 4;
+        private const int PUSH_MAX_SIZE = 4;
 
         /**
          * Ha3Doc文件doc分割符。
@@ -62,36 +55,42 @@ namespace AliCloudOpenSearch.com.API
          */
         private const char HA_DOC_SECTION_WEIGHT = '\x1C';
 
-        /**
-           * 统计的应用名称。                                          
-           * @var String
-           */
-        private String indexName;
+        /// <summary>
+        ///     The operation queue
+        /// </summary>
+        private readonly List<Dictionary<string, object>> _batchExecuteCachedDocs =
+            new List<Dictionary<string, object>>();
 
         /**
          * CloudsearchClient 实例。                                  
          * @var CloudsearchClient                                    
          */
-        private CloudsearchApi client;
+        private readonly CloudsearchApi client;
+
+        /**
+           * 统计的应用名称。                                          
+           * @var String
+           */
+        private string indexName;
 
         /**
          * 指定API接口的相对路径。                          
          * @var String                                               
          */
-        private String path;
+        private readonly string path;
 
         /**
          * 构造函数。
          * @param String indexName 指定统计信息的应用名称。         
          * @param CloudsearchApi client 此对象由CloudsearchApi类实例化。
          */
-        ///<prototype>public CloudsearchDoc(String indexName, CloudsearchApi client)</prototype>
-        public CloudsearchDoc(String indexName, CloudsearchApi client)
+
+        /// <prototype>public CloudsearchDoc(String indexName, CloudsearchApi client)</prototype>
+        public CloudsearchDoc(string indexName, CloudsearchApi client)
         {
             this.indexName = indexName;
             this.client = client;
-            this.path = "/index/doc/" + indexName;
-
+            path = "/index/doc/" + indexName;
         }
 
         /**
@@ -100,12 +99,13 @@ namespace AliCloudOpenSearch.com.API
          * @param String docId 指定的doc id。
          * @return String 
          */
-        ///<prototype>public String detail(String pkField,String docId)</prototype>
-        public Response Detail(String pkField, String docId)
+
+        /// <prototype>public String detail(String pkField,String docId)</prototype>
+        public Response Detail(string pkField, string docId)
         {
-            Dictionary<String, Object> parameters = new Dictionary<String, Object>();
+            var parameters = new Dictionary<string, object>();
             parameters.Add(pkField, docId);
-            return JsonConvert.DeserializeObject<Response>(this.client.ApiCall(this.path, parameters, "POST"));
+            return JsonConvert.DeserializeObject<Response>(client.ApiCall(path, parameters, "POST"));
         }
 
 
@@ -118,20 +118,20 @@ namespace AliCloudOpenSearch.com.API
          * @param String $action 操作符，有ADD、UPDATE、REMOVE。
          * @return String 请求API并返回相应的结果。
          */
-        private Response doAction(List<Dictionary<String, Object>> docs, String tableName)
-        {
 
-            Dictionary<String, Object> parameters = new Dictionary<String, Object>();
+        private Response doAction(List<Dictionary<string, object>> docs, string tableName)
+        {
+            var parameters = new Dictionary<string, object>();
             parameters.Add("action", "push");
             parameters.Add("items", JsonConvert.SerializeObject(docs));
             parameters.Add("table_name", tableName);
 
-            var rawRet = this.client.ApiCall(this.path, parameters, "POST");
+            var rawRet = client.ApiCall(path, parameters, "POST");
             return JsonConvert.DeserializeObject<Response>(rawRet);
         }
 
         /// <summary>
-        /// Batch submit the operation queue which added by add(),delete(),upadte()
+        ///     Batch submit the operation queue which added by add(),delete(),upadte()
         /// </summary>
         /// <param name="tableName"></param>
         public Response Push(string tableName)
@@ -140,7 +140,7 @@ namespace AliCloudOpenSearch.com.API
 
             if (ret.Status != "OK")
             {
-                for (int i = 0; i < MaxTryTimes; i++)
+                for (var i = 0; i < MaxTryTimes; i++)
                 {
                     ret = doAction(_batchExecuteCachedDocs, tableName);
                     if (ret.Status == "OK")
@@ -155,37 +155,37 @@ namespace AliCloudOpenSearch.com.API
         }
 
         /// <summary>
-        /// add field to update queue, will be submitted to server untill push()
+        ///     add field to update queue, will be submitted to server untill push()
         /// </summary>
         /// <param name="fields">The fields will be updated</param>
-        public CloudsearchDoc Update(Dictionary<String, Object> fields)
+        public CloudsearchDoc Update(Dictionary<string, object> fields)
         {
             addToQueue(fields, "update");
             return this;
         }
 
         /// <summary>
-        /// add field to update queue, will be submitted to server untill push()
+        ///     add field to update queue, will be submitted to server untill push()
         /// </summary>
         /// <param name="fieldsList">The fields will be updated</param>
-        public CloudsearchDoc Update(IList<Dictionary<String, Object>> fieldsList)
+        public CloudsearchDoc Update(IList<Dictionary<string, object>> fieldsList)
         {
             addToQueue(fieldsList, "update");
             return this;
         }
 
         /// <summary>
-        /// add fiedls to queue, it will be submitted to server untill push()
+        ///     add fiedls to queue, it will be submitted to server untill push()
         /// </summary>
         /// <param name="docs">added docs</param>
-        public CloudsearchDoc Add(Dictionary<String, Object> fields)
+        public CloudsearchDoc Add(Dictionary<string, object> fields)
         {
             addToQueue(fields, "add");
             return this;
         }
 
         /// <summary>
-        /// Add fields to queue
+        ///     Add fields to queue
         /// </summary>
         /// <param name="fields">fieds with json format,eg:[{id:1,content:"a"},{id:2,content:"b"}]</param>
         public CloudsearchDoc Add(string fields)
@@ -194,23 +194,23 @@ namespace AliCloudOpenSearch.com.API
             return this;
         }
 
-        private void addToQueue(Dictionary<String, Object> fields, string command)
+        private void addToQueue(Dictionary<string, object> fields, string command)
         {
             Utilities.Guard(fields);
             Utilities.Guard(command);
-            var doc = new Dictionary<string, Object>();
+            var doc = new Dictionary<string, object>();
             doc["cmd"] = command;
             doc["fields"] = fields;
             _batchExecuteCachedDocs.Add(doc);
         }
 
-        private void addToQueue(IList<Dictionary<String, Object>> fieldsList, string command)
+        private void addToQueue(IList<Dictionary<string, object>> fieldsList, string command)
         {
             Utilities.Guard(fieldsList);
             Utilities.Guard(command);
             foreach (var fields in fieldsList)
             {
-                var doc = new Dictionary<string, Object>();
+                var doc = new Dictionary<string, object>();
                 doc["cmd"] = command;
                 doc["fields"] = fields;
                 _batchExecuteCachedDocs.Add(doc);
@@ -218,10 +218,10 @@ namespace AliCloudOpenSearch.com.API
         }
 
         /// <summary>
-        /// add fiedls to cache, it will be submitted to server untill push()
+        ///     add fiedls to cache, it will be submitted to server untill push()
         /// </summary>
         /// <param name="docs">added docs</param>
-        public CloudsearchDoc Add(IList<Dictionary<String, Object>> fieldsList)
+        public CloudsearchDoc Add(IList<Dictionary<string, object>> fieldsList)
         {
             addToQueue(fieldsList, "add");
             return this;
@@ -229,7 +229,7 @@ namespace AliCloudOpenSearch.com.API
 
 
         /// <summary>
-        /// Add the doc ids which will be deleted untill push()
+        ///     Add the doc ids which will be deleted untill push()
         /// </summary>
         /// <param name="docIds">Doc ids which will be deleted</param>
         public CloudsearchDoc Remove(params string[] docIds)
@@ -238,9 +238,9 @@ namespace AliCloudOpenSearch.com.API
 
             foreach (var docId in docIds)
             {
-                var doc = new Dictionary<string, Object>();
+                var doc = new Dictionary<string, object>();
                 doc["cmd"] = "delete";
-                doc["fields"] = new { id = docId };
+                doc["fields"] = new {id = docId};
 
                 _batchExecuteCachedDocs.Add(doc);
             }
@@ -248,25 +248,27 @@ namespace AliCloudOpenSearch.com.API
         }
 
 
-        ///<prototype> public Dictionary&lt;String, String&gt; pushHADocFile(String fileName, String tableName, Int32 offset = 1,Int32 maxSize = PUSH_MAX_SIZE, Int32 frequence = PUSH_FREQUENCE)</prototype>
-        public Dictionary<String, String> PushHADocFile(String fileName, String tableName, Int32 offset = 1,
-      Int32 maxSize = PUSH_MAX_SIZE, Int32 frequence = PUSH_FREQUENCE)
+        /// <prototype>
+        ///     public Dictionary&lt;String, String&gt; pushHADocFile(String fileName, String tableName, Int32 offset =
+        ///     1,Int32 maxSize = PUSH_MAX_SIZE, Int32 frequence = PUSH_FREQUENCE)
+        /// </prototype>
+        public Dictionary<string, string> PushHADocFile(string fileName, string tableName, int offset = 1,
+            int maxSize = PUSH_MAX_SIZE, int frequence = PUSH_FREQUENCE)
         {
-
-            StreamReader reader = this._connect(fileName);
+            var reader = _connect(fileName);
 
             // 默认doc初始结构。
-            Dictionary<String, Object> doc = new Dictionary<String, Object>();
+            var doc = new Dictionary<string, object>();
             doc["cmd"] = "";
-            doc["fields"] = new Dictionary<String, Object>();
+            doc["fields"] = new Dictionary<string, object>();
 
             //$doc = array('cmd' => '', 'fields' => array());
 
             // 当前行号，用来记录当前已经解析到了第多少行。
-            Int32 lineNumber = 1;
+            var lineNumber = 1;
 
             // 最新成功push数据的行号，用于如果在重新上传的时候设定offset偏移行号。
-            Int32 lastLineNumber = 0;
+            var lastLineNumber = 0;
 
             // 最后更新的doc中的字段名，如果此行没有字段结束符，则下行的数据会被添加到这行的字段上。
             // 有一些富文本，在当前行没有结束此字段，则要记录最后的字段名称。
@@ -274,26 +276,25 @@ namespace AliCloudOpenSearch.com.API
             // rich_text=鲜花
             // 礼品专卖店^_
             // other_field=xxx^_
-            String lastField = "";
+            var lastField = "";
 
             // 当前还未上传的文档的大小。单位MB.
-            Int32 totalSize = 0;
+            var totalSize = 0;
 
             // 当前秒次已经发了多少次请求，用于限流。
-            Int32 timeFrequence = 0;
+            var timeFrequence = 0;
 
             // 开始遍历文件。
-            String line = String.Empty;
-            List<Dictionary<String, Object>> buffer = new List<Dictionary<string, object>>();
+            var line = string.Empty;
+            var buffer = new List<Dictionary<string, object>>();
 
-            DateTime uTime = new DateTime(1970, 1, 1, 0, 0, 0);
-            Double time = 0;
-            String key = "";
-            String value = "";
+            var uTime = new DateTime(1970, 1, 1, 0, 0, 0);
+            double time = 0;
+            var key = "";
+            var value = "";
 
             while ((line = reader.ReadLine()) != null)
             {
-
                 // 如果当前的行号小于设定的offset行号时跳过。
                 if (lineNumber < offset)
                 {
@@ -301,8 +302,8 @@ namespace AliCloudOpenSearch.com.API
                 }
 
                 // 获取结果当前行的最后两个字符。
-                char[] bytes = line.ToCharArray();
-                char separator = bytes[bytes.Length - 1];
+                var bytes = line.ToCharArray();
+                var separator = bytes[bytes.Length - 1];
 
 
                 // 如果当前结束符是文档的结束符^^\n，则当前doc解析结束。并计算buffer+当前doc文档的
@@ -310,53 +311,47 @@ namespace AliCloudOpenSearch.com.API
                 // 文档扔到buffer中。
                 if (separator == HA_DOC_ITEM_SEPARATOR)
                 {
-
-                    lastField = String.Empty;
+                    lastField = string.Empty;
 
 
                     // 获取当前文档生成json并urlencode之后的size大小。
 
-                    String json = JsonConvert.SerializeObject(doc);
-                    Int32 currentSize = HttpUtility.UrlEncode(json).Length;
+                    var json = JsonConvert.SerializeObject(doc);
+                    var currentSize = HttpUtility.UrlEncode(json).Length;
 
                     // 如果计算的大小+buffer的大小大于等于限定的阀值self::PUSH_MAX_SIZE，则push
                     // buffer数据。
-                    if (currentSize + totalSize >= maxSize * 1024 * 1024)
+                    if (currentSize + totalSize >= maxSize*1024*1024)
                     {
-
                         // push 数据到api。
-                        var rel = this.doAction(buffer, tableName);
+                        var rel = doAction(buffer, tableName);
 
 
                         if ("OK" != rel.Status)
                         {
                             //TODO what is this error?
                             throw new Exception("Api returns error: " +
-                                ". Latest successful posted line is" + lastLineNumber.ToString());
+                                                ". Latest successful posted line is" + lastLineNumber);
                         }
-                        else
+                        // 如果push成功，则计算每秒钟的push的频率并如果超过频率则sleep。
+                        lastLineNumber = lineNumber;
+
+                        var newTime = (DateTime.UtcNow - uTime).TotalSeconds;
+                        timeFrequence++;
+
+                        // 如果时间为上次的push时间且push频率超过设定的频率，则unsleep 剩余的毫秒数。
+                        if (Math.Floor(newTime) == time && timeFrequence >= frequence)
                         {
-                            // 如果push成功，则计算每秒钟的push的频率并如果超过频率则sleep。
-                            lastLineNumber = lineNumber;
-
-                            Double newTime = (DateTime.UtcNow - uTime).TotalSeconds;
-                            timeFrequence++;
-
-                            // 如果时间为上次的push时间且push频率超过设定的频率，则unsleep 剩余的毫秒数。
-                            if (Math.Floor(newTime) == time && timeFrequence >= frequence)
-                            {
-                                Double left = Math.Floor(newTime) + 1 - newTime;
-                                System.Threading.Thread.Sleep(Convert.ToInt32(left));
-                                timeFrequence = 0;
-                            }
-                            // 重新设定时间和频率。
-                            newTime = (DateTime.UtcNow - uTime).TotalSeconds;
-                            if (time != newTime)
-                            {
-
-                                time = newTime;
-                                timeFrequence = 0;
-                            }
+                            var left = Math.Floor(newTime) + 1 - newTime;
+                            Thread.Sleep(Convert.ToInt32(left));
+                            timeFrequence = 0;
+                        }
+                        // 重新设定时间和频率。
+                        newTime = (DateTime.UtcNow - uTime).TotalSeconds;
+                        if (time != newTime)
+                        {
+                            time = newTime;
+                            timeFrequence = 0;
                         }
 
                         // 重置buffer为空，并重新设定total size 为0； 
@@ -370,23 +365,21 @@ namespace AliCloudOpenSearch.com.API
                     doc = new Dictionary<string, object>();
                     // 初始化doc。
                     doc["cmd"] = "";
-                    doc["fields"] = new Dictionary<String, Object>();
-
+                    doc["fields"] = new Dictionary<string, object>();
                 }
                 else if (separator == HA_DOC_FIELD_SEPARATOR)
                 {
                     // 表示当前字段结束。
 
-                    String detail = line.TrimEnd(new char[] { HA_DOC_FIELD_SEPARATOR, '\n' });
+                    var detail = line.TrimEnd(HA_DOC_FIELD_SEPARATOR, '\n');
 
 
-                    if (!String.IsNullOrEmpty(lastField))
+                    if (!string.IsNullOrEmpty(lastField))
                     {
-
                         // 表示当前行非第一行数据，则获取最后生成的字段名称并给其赋值。
-                        Dictionary<String, Object> item = doc["fields"] as Dictionary<String, Object>;
+                        var item = doc["fields"] as Dictionary<string, object>;
 
-                        String[] fv = this._extractFieldValue(item[lastField] + detail);
+                        var fv = _extractFieldValue(item[lastField] + detail);
                         if (fv.Length == 1)
                         {
                             item[lastField] = fv[0];
@@ -395,23 +388,20 @@ namespace AliCloudOpenSearch.com.API
                         {
                             item[lastField] = fv;
                         }
-
-
                     }
                     else
                     {
-
                         // 表示当前为第一行数据，则解析key 和value。
                         try
                         {
-                            List<String> data = this._parseHADocField(detail);
+                            var data = _parseHADocField(detail);
                             key = data[0];
                             value = data[1];
                         }
                         catch (Exception e)
                         {
                             throw new Exception(e.Message +
-                                ". Latest successful posted line number is " + lastLineNumber);
+                                                ". Latest successful posted line number is " + lastLineNumber);
                         }
 
                         if (key.ToUpper() == "CMD")
@@ -420,9 +410,9 @@ namespace AliCloudOpenSearch.com.API
                         }
                         else
                         {
-                            Dictionary<String, Object> item = doc["fields"] as Dictionary<String, Object>;
+                            var item = doc["fields"] as Dictionary<string, object>;
 
-                            String[] fv = this._extractFieldValue(value);
+                            var fv = _extractFieldValue(value);
                             if (fv.Length == 1)
                             {
                                 item[key] = fv[0];
@@ -431,7 +421,6 @@ namespace AliCloudOpenSearch.com.API
                             {
                                 item[key] = fv;
                             }
-
                         }
                     }
 
@@ -443,29 +432,27 @@ namespace AliCloudOpenSearch.com.API
                     // 此else 表示富文本的非最后一行。
                     line = line + "\n";
                     // 表示富文本非第一行。
-                    if (!String.IsNullOrEmpty(lastField))
+                    if (!string.IsNullOrEmpty(lastField))
                     {
-                        Dictionary<String, Object> item = doc["fields"] as Dictionary<String, Object>;
+                        var item = doc["fields"] as Dictionary<string, object>;
                         item[lastField] += line;
-
                     }
                     else
                     {
                         // 表示字段的第一行数据。
                         try
                         {
-                            List<String> data = this._parseHADocField(line);
+                            var data = _parseHADocField(line);
                             key = data[0];
                             value = data[1];
-
                         }
                         catch (Exception e)
                         {
                             throw new Exception(e.Message +
-                                ". Latest successful posted line number is " + lastLineNumber);
+                                                ". Latest successful posted line number is " + lastLineNumber);
                         }
 
-                        Dictionary<String, Object> item = doc["fields"] as Dictionary<String, Object>;
+                        var item = doc["fields"] as Dictionary<string, object>;
                         item[key] = value;
                         lastField = key;
                     }
@@ -479,21 +466,20 @@ namespace AliCloudOpenSearch.com.API
             {
                 // push 数据到api。
 
-                var rel1 = this.doAction(buffer, tableName);
+                var rel1 = doAction(buffer, tableName);
 
                 if (PUSH_RETURN_STATUS_OK != rel1.Status)
                 {
                     throw new Exception("Api returns error: " +
-                        ". Latest successful posted line number is " + lastLineNumber);
+                                        ". Latest successful posted line number is " + lastLineNumber);
                 }
             }
 
-            return new Dictionary<string, string>()
+            return new Dictionary<string, string>
             {
                 {"status", "OK"},
                 {"message", "The data is posted successfully."}
             };
-
         }
 
         /**
@@ -502,9 +488,10 @@ namespace AliCloudOpenSearch.com.API
          * @throws Exception
          * @return resource 返回文件指针。
          */
-        private StreamReader _connect(String fileName)
+
+        private StreamReader _connect(string fileName)
         {
-            StreamReader mysr = new StreamReader(fileName, Encoding.UTF8);
+            var mysr = new StreamReader(fileName, Encoding.UTF8);
             return mysr;
         }
 
@@ -514,25 +501,23 @@ namespace AliCloudOpenSearch.com.API
          * @return String|boolean 返回一个数组有两个字段，第一个为key，第二个为value。如果解析
          * 失败则返回错误。
          */
-        private List<String> _parseHADocField(String str)
+
+        private List<string> _parseHADocField(string str)
         {
             str = str.Substring(0, str.Length);
-            String separater = "=";
-            Int32 pos = str.IndexOf(separater);
+            var separater = "=";
+            var pos = str.IndexOf(separater);
             //Dictionary<String,Object> rel = new Dictionary<string,object>();
-            List<String> rel = new List<String>();
+            var rel = new List<string>();
             if (pos != -1)
             {
-                String key = str.Substring(0, pos);
-                String value = str.Substring(pos + 1);
+                var key = str.Substring(0, pos);
+                var value = str.Substring(pos + 1);
                 rel.Add(key);
                 rel.Add(value);
                 return rel;
             }
-            else
-            {
-                throw new Exception("The are no key and value in the field.");
-            }
+            throw new Exception("The are no key and value in the field.");
         }
 
         /**
@@ -540,12 +525,12 @@ namespace AliCloudOpenSearch.com.API
          * @param String $value 需要解析的结果。
          * @return String|string 如果非多值则返回字符串，否则返回多值数组。
          */
-        private String[] _extractFieldValue(String value)
+
+        private string[] _extractFieldValue(string value)
         {
-            char[] sep = new char[] { HA_DOC_MULTI_VALUE_SEPARATOR };
-            String[] split = value.Split(sep, StringSplitOptions.None);
+            char[] sep = {HA_DOC_MULTI_VALUE_SEPARATOR};
+            var split = value.Split(sep, StringSplitOptions.None);
             return split;
         }
-
     }
 }

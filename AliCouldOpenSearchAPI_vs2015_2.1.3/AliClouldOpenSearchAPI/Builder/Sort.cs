@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace AliCloudOpenSearch.com.API.Builder
 {
     /// <summary>
-    /// Used to generate sort clause
+    ///     Used to generate sort clause
     /// </summary>
     public class Sort : IBuilder
     {
-        private StringBuilder _q = new StringBuilder();
+        private readonly StringBuilder _q = new StringBuilder();
+
+        string IBuilder.BuildQuery()
+        {
+            return _q.ToString();
+        }
 
         /// <summary>
-        /// Desc sorted a field
+        ///     Desc sorted a field
         /// </summary>
         /// <param name="field">field nanme</param>
         /// <returns>Sort instance</returns>
@@ -25,7 +26,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Asc sorted a field
+        ///     Asc sorted a field
         /// </summary>
         /// <param name="field">field nanme</param>
         /// <returns>Sort instance</returns>
@@ -36,7 +37,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Desc sorted by rank
+        ///     Desc sorted by rank
         /// </summary>
         /// <returns>Sort instance</returns>
         public Sort DescByRank()
@@ -47,7 +48,7 @@ namespace AliCloudOpenSearch.com.API.Builder
 
 
         /// <summary>
-        /// Asc sorted by rank
+        ///     Asc sorted by rank
         /// </summary>
         /// <returns>Sort instance</returns>
         public Sort AscByRank()
@@ -64,11 +65,6 @@ namespace AliCloudOpenSearch.com.API.Builder
             }
 
             return _q;
-        }
-
-        string IBuilder.BuildQuery()
-        {
-            return _q.ToString();
         }
     }
 }

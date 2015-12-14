@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AliCloudOpenSearch.com.API.Builder
 {
     /// <summary>
-    /// Used to generate kvpair clause
+    ///     Used to generate kvpair clause
     /// </summary>
     public class KVpair : IBuilder
     {
-        private string _key;
-        private string _val;
+        private readonly string _key;
 
-        private Dictionary<string, string> _kvs = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _kvs = new Dictionary<string, string>();
+        private readonly string _val;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="key">key</param>
         /// <param name="val">value</param>
@@ -31,24 +28,12 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Add a kvpair
-        /// </summary>
-        /// <param name="key">key</param>
-        /// <param name="val">value</param>
-        /// <returns>KVpait instance</returns>
-        public KVpair Add(string key, string val)
-        {
-            _kvs[key] = val;
-            return this;
-        }
-
-        /// <summary>
-        /// Generate KVpair instance
+        ///     Generate KVpair instance
         /// </summary>
         /// <returns></returns>
         string IBuilder.BuildQuery()
         {
-            StringBuilder q = new StringBuilder();
+            var q = new StringBuilder();
             q.Append(_key).Append(":").Append(_val);
 
             foreach (var k in _kvs.Keys)
@@ -57,6 +42,18 @@ namespace AliCloudOpenSearch.com.API.Builder
             }
 
             return q.ToString();
+        }
+
+        /// <summary>
+        ///     Add a kvpair
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="val">value</param>
+        /// <returns>KVpait instance</returns>
+        public KVpair Add(string key, string val)
+        {
+            _kvs[key] = val;
+            return this;
         }
     }
 }

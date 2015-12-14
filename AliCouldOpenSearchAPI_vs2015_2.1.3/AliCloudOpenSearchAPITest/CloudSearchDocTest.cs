@@ -1,25 +1,21 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using AliCloudOpenSearch.com.API;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AliCloudAPITest
 {
-    
-    
     /// <summary>
-    ///这是 CloudSearchIndexTest 的测试类，旨在
-    ///包含所有 CloudSearchIndexTest 单元测试
-    ///</summary>
-    [TestClass()]
-    public class CloudSearchDOcTest:CloudSearchApiAliyunBase
+    ///     这是 CloudSearchIndexTest 的测试类，旨在
+    ///     包含所有 CloudSearchIndexTest 单元测试
+    /// </summary>
+    [TestClass]
+    public class CloudSearchDOcTest : CloudSearchApiAliyunBase
     {
         [TestMethod]
         public void TestDocDetail()
         {
-            CloudsearchDoc target = new CloudsearchDoc(ApplicationName, this.api);
+            var target = new CloudsearchDoc(ApplicationName, api);
             target.Add("[{'id':1,'author':'nathan'}]").Push("main");
 
             var result = target.Detail("id", "1");
@@ -30,17 +26,15 @@ namespace AliCloudAPITest
 
             //Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("验证此测试方法的正确性。");
-
         }
 
 
         [TestMethod]
         public void TestDocAdd()
         {
-
-            CloudsearchDoc target = new CloudsearchDoc(ApplicationName, this.api); // TODO: 初始化为适当的值
-            String pk = RandomStr(5);
-            String data = "[{\"id\":\"" + pk + "\"}]";
+            var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
+            var pk = RandomStr(5);
+            var data = "[{\"id\":\"" + pk + "\"}]";
             target.Add(data);
             var result = target.Push("main");
             Console.WriteLine(result);
@@ -49,16 +43,14 @@ namespace AliCloudAPITest
             Assert.AreEqual("OK", result.Status);
             //Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("验证此测试方法的正确性。");
-
         }
 
         [TestMethod]
         public void TestDocAdd1()
         {
+            var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
 
-            CloudsearchDoc target = new CloudsearchDoc(ApplicationName, this.api); // TODO: 初始化为适当的值
-
-            String data = "[{\"a\":\"1\"}]";
+            var data = "[{\"a\":\"1\"}]";
             target.Add(data);
             var result = target.Push("main");
             Console.WriteLine(result);
@@ -66,18 +58,16 @@ namespace AliCloudAPITest
             Assert.AreEqual("OK", result.Status);
             //Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("验证此测试方法的正确性。");
-
         }
 
 
         [TestMethod]
         public void TestDocDel()
         {
+            var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
 
-            CloudsearchDoc target = new CloudsearchDoc(ApplicationName, this.api); // TODO: 初始化为适当的值
+            var result = target.Remove("999", "1").Push("main");
 
-            var result = target.Remove("999","1").Push("main");
-             
             Console.WriteLine(result);
             //Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("验证此测试方法的正确性。");
@@ -89,10 +79,9 @@ namespace AliCloudAPITest
         [TestMethod]
         public void TestDocBatchSubmit()
         {
+            var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
 
-            CloudsearchDoc target = new CloudsearchDoc(ApplicationName, this.api); // TODO: 初始化为适当的值
-
-            var docToAdd = new Dictionary<string,object>();
+            var docToAdd = new Dictionary<string, object>();
             docToAdd["K1"] = "k1";
             docToAdd["K2"] = "k2";
             docToAdd["id"] = "1";
@@ -111,21 +100,20 @@ namespace AliCloudAPITest
             Assert.AreEqual("OK", result.Status);
 
             var d1 = target.Detail("id", "1");
-
         }
 
         [TestMethod]
         public void TestDocUpdate()
         {
-            CloudsearchDoc target = new CloudsearchDoc(ApplicationName, this.api); // TODO: 初始化为适当的值
+            var target = new CloudsearchDoc(ApplicationName, api); // TODO: 初始化为适当的值
 
-            String data = "[{\"fields\":{\"a\":\"1\",\"b\":\"test\"},\"cmd\":\"UPDATE\"}]";
+            var data = "[{\"fields\":{\"a\":\"1\",\"b\":\"test\"},\"cmd\":\"UPDATE\"}]";
             target.Add(data);
             var result = target.Push("main");
             Console.WriteLine(result);
             //Assert.AreEqual(expected, actual);
             //Assert.Inconclusive("验证此测试方法的正确性。");
-            
+
             Assert.AreEqual("OK", result.Status);
         }
     }

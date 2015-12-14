@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web.ModelBinding;
 using System.Text.RegularExpressions;
 
 namespace AliCloudOpenSearch.com.API.Builder
 {
     /// <summary>
-    /// Used to generate query clause
+    ///     Used to generate query clause
     /// </summary>
     public class Query : IBuilder
     {
-        private IList<IBuilder> _andQrys = new List<IBuilder>();
-        private IList<IBuilder> _orQrys = new List<IBuilder>();
-        private IList<IBuilder> _andNotQrys = new List<IBuilder>();
-        private IList<IBuilder> _rankQrys = new List<IBuilder>();
-        private string _keywordAndIndex;
-        private int _boost = -1;
-        private Regex regex = new Regex("^.+:");
+        private readonly IList<IBuilder> _andNotQrys = new List<IBuilder>();
+        private readonly IList<IBuilder> _andQrys = new List<IBuilder>();
+        private readonly int _boost = -1;
+        private readonly string _keywordAndIndex;
+        private readonly IList<IBuilder> _orQrys = new List<IBuilder>();
+        private readonly IList<IBuilder> _rankQrys = new List<IBuilder>();
+        private readonly Regex regex = new Regex("^.+:");
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="keywordAndIndex">search keywrod, it will add 'default:' if you ignore its index</param>
         public Query(string keywordAndIndex)
@@ -38,7 +35,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="keywordAndIndex">search keywrod, it will add 'default:' if you ignore its index</param>
         /// <param name="boost">Search priority</param>
@@ -50,7 +47,37 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Add 'and' query
+        ///     Generate query clause
+        /// </summary>
+        /// <returns></returns>
+        string IBuilder.BuildQuery()
+        {
+            var qry = new StringBuilder();
+            qry.Append(_keywordAndIndex);
+
+            if (_boost > -1)
+            {
+                qry.Append("^").Append(_boost);
+            }
+
+            Action<IList<IBuilder>, string> func = (lstQyr, op) =>
+            {
+                foreach (var q in lstQyr)
+                {
+                    qry.Append(op).Append("(").Append(q.BuildQuery()).Append(")");
+                }
+            };
+
+            func(_andQrys, " AND ");
+            func(_orQrys, " OR ");
+            func(_andNotQrys, " ANDNOT ");
+            func(_rankQrys, " RANK ");
+
+            return qry.ToString();
+        }
+
+        /// <summary>
+        ///     Add 'and' query
         /// </summary>
         /// <param name="query">query</param>
         /// <returns>Query instance</returns>
@@ -61,7 +88,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Add 'or' query
+        ///     Add 'or' query
         /// </summary>
         /// <param name="query">query</param>
         /// <returns>Query instance</returns>
@@ -72,7 +99,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Add 'andnot' query
+        ///     Add 'andnot' query
         /// </summary>
         /// <param name="query">query</param>
         /// <returns>Query instance</returns>
@@ -83,7 +110,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Add 'rank' query
+        ///     Add 'rank' query
         /// </summary>
         /// <param name="query">query</param>
         /// <returns>Query instance</returns>
@@ -91,36 +118,6 @@ namespace AliCloudOpenSearch.com.API.Builder
         {
             _rankQrys.Add(query);
             return this;
-        }
-
-        /// <summary>
-        /// Generate query clause
-        /// </summary>
-        /// <returns></returns>
-        string IBuilder.BuildQuery()
-        {
-            StringBuilder qry = new StringBuilder();
-            qry.Append(_keywordAndIndex);
-
-            if (_boost > -1)
-            {
-                qry.Append("^").Append(_boost);
-            }
-
-            Action<IList<IBuilder>, string> func = (lstQyr, op) =>
-                                  {
-                                      foreach (var q in lstQyr)
-                                      {
-                                          qry.Append(op).Append("(").Append(q.BuildQuery()).Append(")");
-                                      }
-                                  };
-
-            func(_andQrys, " AND ");
-            func(_orQrys, " OR ");
-            func(_andNotQrys, " ANDNOT ");
-            func(_rankQrys, " RANK ");
-
-            return qry.ToString();
         }
     }
 }

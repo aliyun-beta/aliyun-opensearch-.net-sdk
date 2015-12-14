@@ -1,42 +1,37 @@
-﻿namespace AliCloudOpenSearch.com.API
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using Newtonsoft.Json.Linq;
-    using System.Collections.Specialized;
-    using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 
+namespace AliCloudOpenSearch.com.API
+{
     public class CloudsearchAnalysis
     {
-        /**
-   * 统计的应用名称。                                          
-   * @var string
-   */
-        private String indexName;
-
         /**
          * CloudsearchClient 实例。                                  
          * @var CloudsearchClient                                    
          */
-        private CloudsearchApi client;
+        private readonly CloudsearchApi client;
+        /**
+   * 统计的应用名称。                                          
+   * @var string
+   */
+        private string indexName;
 
         /**
          * 指定API接口的相对路径。111                                
          * @var string                                               
          */
-        private String path;
+        private readonly string path;
 
         /**
          * 构造函数。
          * @param string $indexName 指定统计信息的应用名称。         
          * @param CloudsearchClient $client 此对象由CloudsearchClient类实例化。
          */
-        public CloudsearchAnalysis(String indexName, CloudsearchApi client)
+
+        public CloudsearchAnalysis(string indexName, CloudsearchApi client)
         {
             this.indexName = indexName;
             this.client = client;
-            this.path = "/top/query/" + indexName;
+            path = "/top/query/" + indexName;
         }
 
 
@@ -46,14 +41,14 @@
    * @param int $days 指定统计从昨天开始向前多少天的数据。     
    * @return string                                             
    */
+
         public string GetTopQuery(int num, int days)
         {
-            Dictionary<String, Object> parameters = new Dictionary<String, Object>();
+            var parameters = new Dictionary<string, object>();
             parameters.Add("num", num.ToString());
             parameters.Add("days", days.ToString());
 
-            return this.client.ApiCall(this.path, parameters);
+            return client.ApiCall(path, parameters);
         }
-
     }
 }

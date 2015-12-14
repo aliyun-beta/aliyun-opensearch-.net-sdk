@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-
-namespace AliCloudOpenSearch.com.API.Modal
+﻿namespace AliCloudOpenSearch.com.API.Modal
 {
     /// <summary>
-    /// Responsed errorMessage modal
+    ///     Responsed errorMessage modal
     /// </summary>
     public class ErrorMessage
     {

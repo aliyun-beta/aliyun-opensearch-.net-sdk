@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AliCloudOpenSearch.com.API;
-using System.Collections;
-using Newtonsoft.Json.Linq;
-using System.Web;
-using System.Collections.Specialized;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AliCloudAPITest
 {
     /// <summary>
-    /// UnitTest1 的摘要说明
+    ///     UnitTest1 的摘要说明
     /// </summary>
     [TestClass]
     public class CloudSearchApiAliyunBase
     {
-        protected CloudsearchApi api = null;
-        protected CloudsearchApi mockApi = null; 
         public const string ApplicationName = "datafiddleSearch";
+        protected CloudsearchApi api;
+        protected CloudsearchApi mockApi;
+
 
         public CloudSearchApiAliyunBase()
         {
@@ -29,38 +23,27 @@ namespace AliCloudAPITest
 
             const string client_id = "TR2QyWfDusb0Tgce";
             const string secret_id = "ZPJZBMEr2pcMP2fsGeHH36PzZeNYHW ";
-            
+
 
             api = new CloudsearchApi(client_id, secret_id, "http://opensearch-cn-hangzhou.aliyuncs.com", 1);
-            mockApi = new CloudsearchApiMock(client_id, secret_id, "http://opensearch.console.aliyun.com/", 1, "HMAC-SHA1",
-              "1.0",  10000, true);
+            mockApi = new CloudsearchApiMock(client_id, secret_id, "http://opensearch.console.aliyun.com/", 1,
+                "HMAC-SHA1",
+                "1.0", 10000, true);
         }
 
-        public static String RandomStr(int codeCount)
+        /// <summary>
+        ///     获取或设置测试上下文，该上下文提供
+        ///     有关当前测试运行及其功能的信息。
+        /// </summary>
+        public TestContext TestContext { get; set; }
+
+        public static string RandomStr(int codeCount)
         {
             return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
         }
 
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///获取或设置测试上下文，该上下文提供
-        ///有关当前测试运行及其功能的信息。
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         #region 附加测试特性
+
         //
         // 编写测试时，可以使用以下附加特性:
         //
@@ -80,10 +63,7 @@ namespace AliCloudAPITest
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
+
         #endregion
-
-      
-
-     
     }
 }

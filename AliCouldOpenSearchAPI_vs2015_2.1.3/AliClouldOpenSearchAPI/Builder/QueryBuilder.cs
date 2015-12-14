@@ -1,37 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AliCloudOpenSearch.com.API.Builder
 {
     /// <summary>
-    /// A helper class for build opensearch query
+    ///     A helper class for build opensearch query
     /// </summary>
     public class QueryBuilder
     {
-        private List<String> _indexNameList;
-        private List<String> _fetchFields;
-        private ReponseFormat _format;
-        private Query _query;
-        private Config _config;
         private IBuilder[] _aggregates;
-        private KVpair _kvpair;
-        private Sort _sort;
-        private Distinct _distinct;
-        private Filter _filter;
-
-        private string _qp;
+        private Config _config;
 
         private bool _disable;
+        private Distinct _distinct;
+        private List<string> _fetchFields;
+        private Filter _filter;
         private string _first_formula_name;
+        private ReponseFormat _format;
         private string _formula_name;
+        private List<string> _indexNameList;
+        private KVpair _kvpair;
+
+        private string _qp;
+        private Query _query;
+        private Sort _sort;
         private Summary _summary;
 
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public QueryBuilder()
         {
@@ -40,7 +38,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Application names (The official document also name it index name)
+        ///     Application names (The official document also name it index name)
         /// </summary>
         /// <param name="indexNames"></param>
         /// <returns></returns>
@@ -93,24 +91,25 @@ namespace AliCloudOpenSearch.com.API.Builder
             _disable = disable;
             return this;
         }
-        
+
         public QueryBuilder FirstFormulaName(string first_formula_name)
         {
             _first_formula_name = first_formula_name;
             return this;
         }
-        
+
         public QueryBuilder FormulaName(string formula_name)
         {
             _formula_name = formula_name;
             return this;
         }
-        
+
         public QueryBuilder Summary(Summary summary)
         {
             _summary = summary;
             return this;
         }
+
         public QueryBuilder Config(Config config)
         {
             _config = config;
@@ -157,7 +156,7 @@ namespace AliCloudOpenSearch.com.API.Builder
             return str;
         }
 
-        private void addClause(StringBuilder strBuilder,string clauseKey,IBuilder clauseBuilder)
+        private void addClause(StringBuilder strBuilder, string clauseKey, IBuilder clauseBuilder)
         {
             if (clauseBuilder != null)
             {
@@ -165,7 +164,7 @@ namespace AliCloudOpenSearch.com.API.Builder
             }
         }
 
-        private void addOption(string key,string val,Dictionary<string,object> parameters)
+        private void addOption(string key, string val, Dictionary<string, object> parameters)
         {
             if (!string.IsNullOrEmpty(val))
             {
@@ -173,9 +172,9 @@ namespace AliCloudOpenSearch.com.API.Builder
             }
         }
 
-        internal Dictionary<String, Object> BuildQueryParameter()
+        internal Dictionary<string, object> BuildQueryParameter()
         {
-            StringBuilder q = new StringBuilder();
+            var q = new StringBuilder();
 
             addClause(q, "config", _config);
             addClause(q, "query", _query);
@@ -186,12 +185,14 @@ namespace AliCloudOpenSearch.com.API.Builder
 
             if (_aggregates != null && _aggregates.Length > 0)
             {
-                addClauseSeperate(q).Append("aggregate=").Append(string.Join(";", _aggregates.Select(x => x.BuildQuery()).ToArray()));
+                addClauseSeperate(q)
+                    .Append("aggregate=")
+                    .Append(string.Join(";", _aggregates.Select(x => x.BuildQuery()).ToArray()));
             }
 
-            var indexs= string.Join(";", _indexNameList);
+            var indexs = string.Join(";", _indexNameList);
 
-            Dictionary<String, Object> parameters = new Dictionary<String, Object>();
+            var parameters = new Dictionary<string, object>();
             parameters.Add("query", q.ToString());
             parameters.Add("index_name", indexs);
 
@@ -200,11 +201,11 @@ namespace AliCloudOpenSearch.com.API.Builder
                 parameters.Add("summary", _summary.BuilderQuery());
             }
 
-            addOption("fetch_fields", String.Join(";", _fetchFields.ToArray()), parameters);
-            addOption("qp",_qp,parameters);
+            addOption("fetch_fields", string.Join(";", _fetchFields.ToArray()), parameters);
+            addOption("qp", _qp, parameters);
             addOption("disable", _disable.ToString().ToLower(), parameters);
             addOption("first_formula_name", _first_formula_name, parameters);
-            addOption("formula_name", _formula_name,parameters);
+            addOption("formula_name", _formula_name, parameters);
 
             return parameters;
         }

@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AliCloudOpenSearch.com.API.Builder
 {
     /// <summary>
-    /// Used to generate summary parameter
+    ///     Used to generate summary parameter
     /// </summary>
     public class Summary
     {
-        private string _summary_field;
         private string _summary_element;
         private string _summary_ellipsis;
-        private int _summary_snipped = -1;
+        private string _summary_field;
         private string _summary_len;
-        private string _summary_prefix;
         private string _summary_postfix;
-        private Dictionary<string,string> dics = new Dictionary<string, string>(); 
+        private string _summary_prefix;
+        private int _summary_snipped = -1;
+        private readonly Dictionary<string, string> dics = new Dictionary<string, string>();
 
         /// <summary>
-        /// Construct
+        ///     Construct
         /// </summary>
         /// <param name="summary_field"></param>
         public Summary(string summary_field)
@@ -30,7 +27,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Set summary parameter:summary_element
+        ///     Set summary parameter:summary_element
         /// </summary>
         /// <param name="summary_element">summary_element</param>
         /// <returns>Summary instance</returns>
@@ -41,7 +38,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Set summary_ellipsis
+        ///     Set summary_ellipsis
         /// </summary>
         /// <param name="summary_ellipsis">summary_ellipsis</param>
         /// <returns>Summary instance</returns>
@@ -52,18 +49,18 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Set summary_snipped
+        ///     Set summary_snipped
         /// </summary>
         /// <param name="summary_snipped">summary_snipped</param>
         /// <returns>Summary instance</returns>
         public Summary SummarySnipped(int summary_snipped)
         {
-            dics["summary_snipped"] = ""+summary_snipped;
+            dics["summary_snipped"] = "" + summary_snipped;
             return this;
         }
 
         /// <summary>
-        /// Set summary_len
+        ///     Set summary_len
         /// </summary>
         /// <param name="summary_len">summary_len</param>
         /// <returns>Summary instance</returns>
@@ -74,7 +71,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Set summary_prefix
+        ///     Set summary_prefix
         /// </summary>
         /// <param name="summary_prefix">summary_prefix</param>
         /// <returns>Summary instance</returns>
@@ -85,7 +82,7 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Set summary_postfix
+        ///     Set summary_postfix
         /// </summary>
         /// <param name="summary_postfix">summary_postfix</param>
         /// <returns>Summary instance</returns>
@@ -96,12 +93,12 @@ namespace AliCloudOpenSearch.com.API.Builder
         }
 
         /// <summary>
-        /// Generate summary query
+        ///     Generate summary query
         /// </summary>
         /// <returns>summary query</returns>
         internal string BuilderQuery()
         {
-            StringBuilder q = new StringBuilder();
+            var q = new StringBuilder();
 
             foreach (var k in dics.Keys)
             {

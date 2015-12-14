@@ -15,7 +15,9 @@ namespace Sample
             var search = new CloudsearchSearch(apiclient);
 
             var builder = new QueryBuilder();
-            builder.ApplicationNames("datafiddleSearch").Query(new Query("云").And(new Query("搜索"))).Config(new Config().Format(ReponseFormat.Json));
+            builder.ApplicationNames("datafiddleSearch")
+                .Query(new Query("云").And(new Query("搜索")))
+                .Config(new Config().Format(ReponseFormat.Json));
 
             var result = search.Search(builder);
             Console.WriteLine(result);

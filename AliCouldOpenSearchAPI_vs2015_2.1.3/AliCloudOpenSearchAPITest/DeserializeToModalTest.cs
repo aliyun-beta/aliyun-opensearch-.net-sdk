@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AliCloudOpenSearch.com.API;
-using AliCloudOpenSearch.com.API.Modal;
+﻿using AliCloudOpenSearch.com.API;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace AliCloudAPITest
 {
@@ -28,7 +20,8 @@ namespace AliCloudAPITest
         [TestMethod]
         public void TestResponseDeserializeWithErrors()
         {
-            var json = "{'status':'FAIL','errors':[{'code':4012,'message':'Table dose not exist'}],'request_id':'1422348739084222300234072'}";
+            var json =
+                "{'status':'FAIL','errors':[{'code':4012,'message':'Table dose not exist'}],'request_id':'1422348739084222300234072'}";
 
             var deserializedObj = Utilities.ConvertResult(json);
 

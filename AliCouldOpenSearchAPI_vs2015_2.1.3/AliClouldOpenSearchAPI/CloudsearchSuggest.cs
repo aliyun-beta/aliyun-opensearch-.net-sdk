@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AliCloudOpenSearch.com.API
@@ -11,30 +7,32 @@ namespace AliCloudOpenSearch.com.API
     public class CloudsearchSuggest
     {
         /// <summary>
-        /// Url sub path
+        ///     The working index name
         /// </summary>
-        private string _path;
-        /// <summary>
-        /// The working index name
-        /// </summary>
-        private String _applicationName;
+        private readonly string _applicationName;
 
         /// <summary>
-        /// Suggest name
+        ///     CloudsearchClient instance
         /// </summary>
-        private string _suggestNamel;
-        /// <summary>
-        /// CloudsearchClient instance
-        /// </summary>
-        private CloudsearchApi _client;
+        private readonly CloudsearchApi _client;
 
         /// <summary>
-        /// Constructor function
+        ///     Url sub path
+        /// </summary>
+        private readonly string _path;
+
+        /// <summary>
+        ///     Suggest name
+        /// </summary>
+        private readonly string _suggestNamel;
+
+        /// <summary>
+        ///     Constructor function
         /// </summary>
         /// <param name="applicationName">The index name which working in</param>
         /// <param name="suggestName">The working suggestName name</param>
         /// <param name="client">CloudsearchClient instance</param>
-        public CloudsearchSuggest(String applicationName, string suggestName,CloudsearchApi client)
+        public CloudsearchSuggest(string applicationName, string suggestName, CloudsearchApi client)
         {
             _applicationName = applicationName;
             _client = client;
@@ -43,20 +41,20 @@ namespace AliCloudOpenSearch.com.API
         }
 
         /// <summary>
-        /// Return the suggestion accoring the query and specified hit
+        ///     Return the suggestion accoring the query and specified hit
         /// </summary>
         /// <param name="query">Search query without index name</param>
         /// <param name="hit">Return size</param>
         /// <returns></returns>
-        public string[] GetSuggest(string query,int hit)
+        public string[] GetSuggest(string query, int hit)
         {
-            Dictionary<String, Object> parameters = new Dictionary<String, Object>();
+            var parameters = new Dictionary<string, object>();
 
             parameters.Add("query", query);
             parameters.Add("index_name", _applicationName);
             parameters.Add("suggest_name", _suggestNamel);
             parameters.Add("hit", hit);
-            JObject json = JObject.Parse(_client.ApiCall(this._path, parameters, "GET"));
+            var json = JObject.Parse(_client.ApiCall(_path, parameters, "GET"));
 
             if (json["suggestions"] != null)
             {

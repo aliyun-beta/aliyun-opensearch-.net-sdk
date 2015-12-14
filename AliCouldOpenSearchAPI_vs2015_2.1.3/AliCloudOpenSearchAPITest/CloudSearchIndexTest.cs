@@ -1,38 +1,36 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using AliCloudOpenSearch.com.API;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AliCloudAPITest
 {
-    
-    
     /// <summary>
-    ///这是 CloudSearchIndexTest 的测试类，旨在
-    ///包含所有 CloudSearchIndexTest 单元测试
-    ///</summary>
-    [TestClass()]
-    public class CloudSearchIndexTest:CloudSearchApiAliyunBase
+    ///     这是 CloudSearchIndexTest 的测试类，旨在
+    ///     包含所有 CloudSearchIndexTest 单元测试
+    /// </summary>
+    [TestClass]
+    public class CloudSearchIndexTest : CloudSearchApiAliyunBase
     {
         /// <summary>
-        ///createIndex 的测试
-        ///</summary>
-        [TestMethod()]
+        ///     createIndex 的测试
+        /// </summary>
+        [TestMethod]
         public void testCreateIndex()
         {
-            string indexName ="index";
-            CloudsearchApplication target = new CloudsearchApplication( this.mockApi); 
-            string template = "news"; 
+            var indexName = "index";
+            var target = new CloudsearchApplication(mockApi);
+            var template = "news";
             string result;
-            result = target.CreateByTemplate(indexName,template);
+            result = target.CreateByTemplate(indexName, template);
             Console.WriteLine(result);
-            Assert.IsTrue(result.IndexOf("action=create&template=news")>=0);
+            Assert.IsTrue(result.IndexOf("action=create&template=news") >= 0);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TestRebuildIndex()
         {
-            CloudsearchApplication target = new CloudsearchApplication(this.api);
-            
+            var target = new CloudsearchApplication(api);
+
             var result = target.RebuildIndex("hotel", null, null);
             var j = Utilities.ConvertResult(result);
 
