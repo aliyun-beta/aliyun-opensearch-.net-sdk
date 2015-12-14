@@ -1,2 +1,3 @@
 language: csharp
-solution: ./AliCouldOpenSearchAPI_vs2015_2.1.3/AliClouldOpenSearchAPI_vs2012.sln
+script:
+  - xbuild build.xml

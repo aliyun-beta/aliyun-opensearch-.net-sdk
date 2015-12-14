@@ -18,10 +18,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{26BBCADD-4481-4166-A99A-8DA46F0D5584}"
 EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = AliCouldAPI.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		NoUnitTests|Any CPU = NoUnitTests|Any CPU
+		NoUnitTests|Mixed Platforms = NoUnitTests|Mixed Platforms
+		NoUnitTests|x86 = NoUnitTests|x86
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
@@ -32,6 +38,11 @@ Global
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Debug|x86.ActiveCfg = Debug|x86
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Debug|x86.Build.0 = Debug|x86
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.NoUnitTests|Any CPU.ActiveCfg = NoUnitTests|x86
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.NoUnitTests|Mixed Platforms.ActiveCfg = NoUnitTests|x86
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.NoUnitTests|Mixed Platforms.Build.0 = NoUnitTests|x86
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.NoUnitTests|x86.ActiveCfg = NoUnitTests|x86
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.NoUnitTests|x86.Build.0 = NoUnitTests|x86
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Release|Any CPU.ActiveCfg = Release|x86
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Release|Mixed Platforms.Build.0 = Release|x86
@@ -42,6 +53,10 @@ Global
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.NoUnitTests|Any CPU.ActiveCfg = NoUnitTests|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.NoUnitTests|Any CPU.Build.0 = NoUnitTests|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.NoUnitTests|Mixed Platforms.ActiveCfg = NoUnitTests|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.NoUnitTests|x86.ActiveCfg = NoUnitTests|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -53,6 +68,11 @@ Global
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|x86.Build.0 = Debug|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.NoUnitTests|Any CPU.ActiveCfg = NoUnitTests|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.NoUnitTests|Any CPU.Build.0 = NoUnitTests|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.NoUnitTests|Mixed Platforms.ActiveCfg = NoUnitTests|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.NoUnitTests|Mixed Platforms.Build.0 = NoUnitTests|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.NoUnitTests|x86.ActiveCfg = NoUnitTests|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -62,8 +82,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = AliCouldAPI.vsmdi
 	EndGlobalSection
 EndGlobal
