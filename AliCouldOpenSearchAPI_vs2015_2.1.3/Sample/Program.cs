@@ -8,8 +8,8 @@ namespace Sample
     {
         private static void Main(string[] args)
         {
-            const string client_id = "yourAccessKey";
-            const string secret_id = "yourSecret ";
+            const string client_id = "TR2QyWfDusb0Tgce";
+            const string secret_id = "ZPJZBMEr2pcMP2fsGeHH36PzZeNYHW";
 
             var apiclient = new CloudsearchApi(client_id, secret_id, "http://opensearch-cn-hangzhou.aliyuncs.com");
             var search = new CloudsearchSearch(apiclient);
