@@ -22,7 +22,7 @@ namespace AliCloudAPITest
             var args = BuildParams(parameters);
 
             var resultJObject = new JObject();
-            resultJObject["rawResponse"] = JsonConvert.SerializeObject(new  {Url=url,Query=args,Status="OK"});
+            resultJObject["rawResponse"] = JsonConvert.SerializeObject(new  {Url=url,Query=args,status="OK"});
 
             return resultJObject;
         }

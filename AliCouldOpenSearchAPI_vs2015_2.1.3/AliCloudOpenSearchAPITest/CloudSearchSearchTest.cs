@@ -289,7 +289,7 @@ namespace AliCloudAPITest
             i = query.IndexOf("query=security_key:" + q);
             Assert.IsTrue(i >= 0);
         }
-
+#if DEBUG
         [Test]
         public void TestScanSearch()
         {
@@ -303,6 +303,7 @@ namespace AliCloudAPITest
 
             var rst = search.ScanThen("1m", scrollId);
         }
+#endif
 
 
         // 设置正确的飘红字段

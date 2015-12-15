@@ -42,8 +42,6 @@ namespace AliCloudAPITest
             var template = "template1";
             string actual;
             actual = target.CreateByTemplate(appName, template);
-            //Assert.AreEqual(expected, actual);
-            //Assert.Inconclusive("验证此测试方法的正确性。");
             Console.WriteLine(actual);
 
             var jo = JObject.Parse(actual);
@@ -58,7 +56,6 @@ namespace AliCloudAPITest
             //"result":{"index_name":"4N0F6H","description":""},"status":"OK"}
             jo = JObject.Parse(actual);
             Assert.AreEqual("OK", (string)jo["status"]);
-            Assert.AreEqual(1, (int)jo["result"]);
         }
 
         [Test]

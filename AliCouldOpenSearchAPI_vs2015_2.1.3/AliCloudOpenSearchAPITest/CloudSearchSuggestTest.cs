@@ -6,6 +6,7 @@ namespace AliCloudAPITest
     [TestFixture]
     public class CloudSearchSuggestTest : CloudSearchApiAliyunBase
     {
+        #if DEBUG
         [Test]
         public void testGetSuggest()
         {
@@ -15,5 +16,6 @@ namespace AliCloudAPITest
 
             Assert.IsNotNull(result);
         }
+#endif
     }
 }
