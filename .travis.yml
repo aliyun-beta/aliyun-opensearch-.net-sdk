@@ -1,6 +1,6 @@
 language: csharp
 install:
-  - nuget install NUnit.Runners -Version 3.0.1 -OutputDirectory testrunner
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
   - xbuild build.xml
-  - mono ./testrunner/NUnit.Runners.3.0.1/tools/nunit-console.exe ./AliCouldOpenSearchAPI_vs2015_2.1.3/AliCloudOpenSearchAPITest/bin/Release/AliCloudOpenSearchAPITest.dll
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./AliCouldOpenSearchAPI_vs2015_2.1.3/AliCloudOpenSearchAPITest/bin/Release/AliCloudOpenSearchAPITest.dll
