@@ -85,7 +85,7 @@ namespace AliCloudOpenSearch.com.API
         ///     请求超时时间,默认10s
         ///     @link http://css.aliyun.com/manager/config/
         /// </summary>
-        private readonly int requestTimeout = 10000;
+        private readonly int requestTimeout = 50000;
 
 
         /// 指定阿里云签名算法方式

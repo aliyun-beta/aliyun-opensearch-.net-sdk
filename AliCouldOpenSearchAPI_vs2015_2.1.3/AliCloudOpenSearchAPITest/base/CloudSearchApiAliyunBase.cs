@@ -28,7 +28,7 @@ namespace AliCloudAPITest
             api = new CloudsearchApi(client_id, secret_id, "http://opensearch-cn-hangzhou.aliyuncs.com", 1);
             mockApi = new CloudsearchApiMock(client_id, secret_id, "http://opensearch.console.aliyun.com/", 1,
                 "HMAC-SHA1",
-                "1.0", 10000, true);
+                "1.0", 50000, true);
         }
 
         /// <summary>
