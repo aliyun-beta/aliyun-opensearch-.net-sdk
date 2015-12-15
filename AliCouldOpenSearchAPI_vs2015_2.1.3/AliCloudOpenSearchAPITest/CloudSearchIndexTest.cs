@@ -29,13 +29,12 @@ namespace AliCloudAPITest
         [Test]
         public void TestRebuildIndex()
         {
-            var target = new CloudsearchApplication(api);
+            var target = new CloudsearchApplication(mockApi);
 
             var result = target.RebuildIndex("hotel", null, null);
             var j = Utilities.ConvertResult(result);
 
-            //You may get 'Unfinished task is exists' error
-            //Assert.AreEqual("OK",j.Status);
+            Assert.AreEqual("OK",j.Status);
         }
     }
 }

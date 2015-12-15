@@ -14,9 +14,10 @@ namespace AliCloudAPITest
         [Test]
         public void testTopQuery()
         {
-            var css = new CloudsearchAnalysis("hotel", api);
+            var css = new CloudsearchAnalysis("hotel", mockApi);
             var result = css.GetTopQuery(100, 100);
-            Console.WriteLine(result);
+            AssertEqualFromQueryString("num", "100", result);
+            AssertEqualFromQueryString("days", "100", result);
         }
     }
 }

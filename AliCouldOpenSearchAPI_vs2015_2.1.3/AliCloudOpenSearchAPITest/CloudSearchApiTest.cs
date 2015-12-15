@@ -75,27 +75,21 @@ namespace AliCloudAPITest
         [Test]
         public void TestListIndex()
         {
-            var target = new CloudsearchApplication(api);
+            var target = new CloudsearchApplication(mockApi);
 
             var result = target.ListApplications();
-            Console.WriteLine(result);
-            //Assert.AreEqual(expected, actual);
-            //Assert.Inconclusive("验证此测试方法的正确性。");
-            var jo = JObject.Parse(result);
-            Assert.AreEqual("OK", (string)jo["status"]);
+
+            AssertPath("/index", result);
+            AssertEqualFromQueryString("page", "1", result);
 
             result = target.ListApplications(2, 2);
-            Console.WriteLine(result);
-            //Assert.AreEqual(expected, actual);
-            //Assert.Inconclusive("验证此测试方法的正确性。");
-            jo = JObject.Parse(result);
-            Assert.AreEqual("OK", (string)jo["status"]);
+            AssertEqualFromQueryString("page", "2", result);
         }
 
         [Test]
         public void TestStatusIndex()
         {
-            var target = new CloudsearchApplication(api); // TODO: 初始化为适当的值
+            var target = new CloudsearchApplication(api);
 
             var result = target.Status("hotel");
             Console.WriteLine(result);

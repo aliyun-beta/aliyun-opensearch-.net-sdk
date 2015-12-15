@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using AliCloudOpenSearch.com.API;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AliCloudAPITest
@@ -20,11 +21,8 @@ namespace AliCloudAPITest
         {
             var args = BuildParams(parameters);
 
-            url += "?" + args;
-            args = string.Empty;
-
             var resultJObject = new JObject();
-            resultJObject["rawResponse"] = url;
+            resultJObject["rawResponse"] = JsonConvert.SerializeObject(new  {Url=url,Query=args,Status="OK"});
 
             return resultJObject;
         }

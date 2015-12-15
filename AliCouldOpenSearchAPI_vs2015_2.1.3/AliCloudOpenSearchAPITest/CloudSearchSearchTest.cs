@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using AliCloudOpenSearch.com.API;
 using AliCloudOpenSearch.com.API.Builder;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace AliCloudAPITest
@@ -24,13 +25,10 @@ namespace AliCloudAPITest
             builder.Aggregate(new Aggregate("price", "count()"), new Aggregate("id", "count()"));
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
-
-            Console.WriteLine(query);
-
+            
             var i = query.IndexOf("aggregate=group_key:price,agg_fun:count();group_key:id,agg_fun:count()");
             Assert.IsTrue(i >= 0);
         }
@@ -64,8 +62,7 @@ namespace AliCloudAPITest
              * 14129937619908342&Timestamp=2014-10-11T02:16:01Z&Signature=3pxDIMoVHKI6YRKnD6FR34L9qPM=
              */
 
-            var uri = new Uri(result);
-            var n = HttpUtility.ParseQueryString(uri.Query);
+            var n = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
             var query = n["query"];
 
             var i = query.IndexOf("start:0");
@@ -92,8 +89,7 @@ namespace AliCloudAPITest
             result = search.Search(builder);
             Console.WriteLine(result);
 
-            uri = new Uri(result);
-            n = HttpUtility.ParseQueryString(uri.Query);
+            n = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
             query = n["query"];
 
             i = query.IndexOf("start:50");
@@ -129,8 +125,7 @@ namespace AliCloudAPITest
             builder.Sort(new Sort().Desc("price"));
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
 
@@ -153,8 +148,7 @@ namespace AliCloudAPITest
                 .Reserved(false).DistinctFilter("price>12").UpdateTotalHit(true).MaxItemCount(25).Grade(3.0));
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
 
@@ -176,8 +170,7 @@ namespace AliCloudAPITest
             builder.FetchFields("id", "gmt_modified");
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["fetch_fields"];
 
@@ -200,8 +193,7 @@ namespace AliCloudAPITest
             builder.Filter(new Filter("price>12").And(new Filter("id<88")));
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
 
@@ -225,8 +217,7 @@ namespace AliCloudAPITest
             builder.Config(new Config().Format(ReponseFormat.Json));
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
 
@@ -245,8 +236,7 @@ namespace AliCloudAPITest
             builder.RemoveApplicationame("index2");
 
             result = search.Search(builder);
-            uri = new Uri(result);
-            queryDict = HttpUtility.ParseQueryString(uri.Query);
+            queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
             index_name = queryDict["index_name"];
             Console.WriteLine(index_name);
             Assert.AreEqual("index1", index_name);
@@ -263,8 +253,7 @@ namespace AliCloudAPITest
             builder.Kvpari(new KVpair("test1", "test2"));
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
 
@@ -290,8 +279,7 @@ namespace AliCloudAPITest
             builder.Query(new Query("security_key:" + q));
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
 
@@ -330,8 +318,7 @@ namespace AliCloudAPITest
 
 
             var result = search.Search(builder);
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
 
@@ -361,8 +348,7 @@ namespace AliCloudAPITest
 
             var result = search.Search(builder);
 
-            var uri = new Uri(result);
-            var queryDict = HttpUtility.ParseQueryString(uri.Query);
+            var queryDict = HttpUtility.ParseQueryString(JObject.Parse(result)["Query"].ToString());
 
             var query = queryDict["query"];
 
@@ -379,7 +365,7 @@ namespace AliCloudAPITest
         [Test]
         public void TestWithRealService()
         {
-            var search = new CloudsearchSearch(api);
+            var search = new CloudsearchSearch(mockApi);
             var builder = new QueryBuilder();
             builder.ApplicationNames(ApplicationName);
             builder.Query(new Query("云"));
