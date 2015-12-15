@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AliCloudOpenSearchAPI", "AliClouldOpenSearchAPI\AliCloudOpenSearchAPI.csproj", "{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AliCloudOpenSearchAPITest", "AliCloudOpenSearchAPITest\AliCloudOpenSearchAPITest.csproj", "{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}"
@@ -18,19 +20,22 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{26BBCADD-4481-4166-A99A-8DA46F0D5584}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = AliCouldAPI.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		DebugNET45|Any CPU = DebugNET45|Any CPU
+		DebugNET45|Mixed Platforms = DebugNET45|Mixed Platforms
+		DebugNET45|x86 = DebugNET45|x86
 		NoUnitTests|Any CPU = NoUnitTests|Any CPU
 		NoUnitTests|Mixed Platforms = NoUnitTests|Mixed Platforms
 		NoUnitTests|x86 = NoUnitTests|x86
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
+		ReleaseNET45|Any CPU = ReleaseNET45|Any CPU
+		ReleaseNET45|Mixed Platforms = ReleaseNET45|Mixed Platforms
+		ReleaseNET45|x86 = ReleaseNET45|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,6 +44,12 @@ Global
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.DebugNET45|Any CPU.ActiveCfg = DebugNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.DebugNET45|Any CPU.Build.0 = DebugNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.DebugNET45|Mixed Platforms.ActiveCfg = DebugNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.DebugNET45|Mixed Platforms.Build.0 = DebugNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.DebugNET45|x86.ActiveCfg = DebugNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.DebugNET45|x86.Build.0 = DebugNET45|Any CPU
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.NoUnitTests|Any CPU.ActiveCfg = NoUnitTests|Any CPU
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.NoUnitTests|Any CPU.Build.0 = NoUnitTests|Any CPU
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.NoUnitTests|Mixed Platforms.ActiveCfg = NoUnitTests|Any CPU
@@ -50,12 +61,24 @@ Global
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Release|x86.ActiveCfg = Release|Any CPU
 		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.Release|x86.Build.0 = Release|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.ReleaseNET45|Any CPU.ActiveCfg = ReleaseNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.ReleaseNET45|Any CPU.Build.0 = ReleaseNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.ReleaseNET45|Mixed Platforms.ActiveCfg = ReleaseNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.ReleaseNET45|Mixed Platforms.Build.0 = ReleaseNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.ReleaseNET45|x86.ActiveCfg = ReleaseNET45|Any CPU
+		{5A7EAAD8-9C8B-4121-8DC9-20DFD925E0EE}.ReleaseNET45|x86.Build.0 = ReleaseNET45|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.DebugNET45|Any CPU.ActiveCfg = DebugNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.DebugNET45|Any CPU.Build.0 = DebugNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.DebugNET45|Mixed Platforms.ActiveCfg = DebugNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.DebugNET45|Mixed Platforms.Build.0 = DebugNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.DebugNET45|x86.ActiveCfg = DebugNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.DebugNET45|x86.Build.0 = DebugNET45|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.NoUnitTests|Any CPU.ActiveCfg = NoUnitTests|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.NoUnitTests|Any CPU.Build.0 = NoUnitTests|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.NoUnitTests|Mixed Platforms.ActiveCfg = NoUnitTests|Any CPU
@@ -66,12 +89,24 @@ Global
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Release|x86.ActiveCfg = Release|Any CPU
 		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.Release|x86.Build.0 = Release|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.ReleaseNET45|Any CPU.ActiveCfg = ReleaseNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.ReleaseNET45|Any CPU.Build.0 = ReleaseNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.ReleaseNET45|Mixed Platforms.ActiveCfg = ReleaseNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.ReleaseNET45|Mixed Platforms.Build.0 = ReleaseNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.ReleaseNET45|x86.ActiveCfg = ReleaseNET45|Any CPU
+		{FF7B7BF8-0DD3-4E7D-8DAF-D83B50B415CF}.ReleaseNET45|x86.Build.0 = ReleaseNET45|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Debug|x86.Build.0 = Debug|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.DebugNET45|Any CPU.ActiveCfg = DebugNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.DebugNET45|Any CPU.Build.0 = DebugNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.DebugNET45|Mixed Platforms.ActiveCfg = DebugNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.DebugNET45|Mixed Platforms.Build.0 = DebugNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.DebugNET45|x86.ActiveCfg = DebugNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.DebugNET45|x86.Build.0 = DebugNET45|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.NoUnitTests|Any CPU.ActiveCfg = NoUnitTests|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.NoUnitTests|Any CPU.Build.0 = NoUnitTests|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.NoUnitTests|Mixed Platforms.ActiveCfg = NoUnitTests|Any CPU
@@ -83,8 +118,17 @@ Global
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Release|x86.ActiveCfg = Release|Any CPU
 		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.Release|x86.Build.0 = Release|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.ReleaseNET45|Any CPU.ActiveCfg = ReleaseNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.ReleaseNET45|Any CPU.Build.0 = ReleaseNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.ReleaseNET45|Mixed Platforms.ActiveCfg = ReleaseNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.ReleaseNET45|Mixed Platforms.Build.0 = ReleaseNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.ReleaseNET45|x86.ActiveCfg = ReleaseNET45|Any CPU
+		{26BBCADD-4481-4166-A99A-8DA46F0D5584}.ReleaseNET45|x86.Build.0 = ReleaseNET45|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = AliCouldAPI.vsmdi
 	EndGlobalSection
 EndGlobal

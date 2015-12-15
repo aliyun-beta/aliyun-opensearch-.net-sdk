@@ -6,7 +6,7 @@ namespace AliCloudAPITest
     [TestFixture]
     public class CloudSearchSuggestTest : CloudSearchApiAliyunBase
     {
-        #if DEBUG
+#if DEBUG
         [Test]
         public void testGetSuggest()
         {
