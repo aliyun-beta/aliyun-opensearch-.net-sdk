@@ -4,7 +4,7 @@
   <Target Name="CI" DependsOnTargets="Build" />
  
   <Target Name="Build">
-    <MSBuild Projects="./AliCouldOpenSearchAPI_vs2015_2.1.3/AliClouldOpenSearchAPI_vs2012.sln" Properties="Configuration=Release;Platform=AnyCPU" />
+    <MSBuild Projects="./AliCouldOpenSearchAPI_vs2015_2.1.3/AliClouldOpenSearchAPI_vs2012.sln" Properties="Configuration=Release;Platform=x86" />
   </Target>
  
 </Project>
