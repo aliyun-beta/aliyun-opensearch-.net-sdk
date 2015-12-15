@@ -61,6 +61,7 @@ Since aliyun opensearch is a service which updated from another one, so it also 
 In this SDK, all 'index' means the index meaning, and use 'applicatin' to describe a index container.
 
 ## CI
-[Travis-CI](https://travis-ci.org/aliyun-beta/aliyun-opensearch-.net-sdk)
+[![Build Status](https://travis-ci.org/aliyun-beta/aliyun-opensearch-.net-sdk.svg?branch=master)](https://travis-ci.org/aliyun-beta/aliyun-opensearch-.net-sdk)
+
 ##License
 This SDK is distributed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
