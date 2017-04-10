@@ -1,6 +1,7 @@
 ﻿using System;
 using AliCloudOpenSearch.com.API;
 using AliCloudOpenSearch.com.API.Builder;
+using System.Threading.Tasks;
 
 namespace Sample
 {
@@ -21,7 +22,15 @@ namespace Sample
 
             var result = search.Search(builder);
             Console.WriteLine(result);
-
+#if NET45
+            string asyncResult = null;
+            var t = Task.Run(async () =>
+            {
+                asyncResult = await search.SearchAsync(builder);
+            });
+            t.Wait();
+            Console.WriteLine(asyncResult);
+#endif
             Console.Read();
         }
     }

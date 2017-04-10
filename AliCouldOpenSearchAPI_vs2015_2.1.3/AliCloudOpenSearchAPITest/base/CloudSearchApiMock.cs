@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using AliCloudOpenSearch.com.API;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -26,5 +27,14 @@ namespace AliCloudAPITest
 
             return resultJObject;
         }
+#if NET45
+        protected override async Task<JObject> requestByWebrequestAsync(string method, string url, Dictionary<string, object> parameters, NameValueCollection httpOptions = null)
+        {
+            return await Task.Run(() =>
+            {
+                return requestByWebrequest(method, url, parameters, httpOptions);
+            }).ConfigureAwait(false);
+        }
+#endif
     }
 }

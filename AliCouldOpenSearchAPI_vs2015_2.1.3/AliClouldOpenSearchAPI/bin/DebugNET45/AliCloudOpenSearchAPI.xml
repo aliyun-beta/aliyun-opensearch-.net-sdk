@@ -379,27 +379,34 @@
             <returns></returns>
         </member>
         <member name="F:AliCloudOpenSearch.com.API.CloudsearchAnalysis.client">
-            CloudsearchClient 实例。                                  
-            @var CloudsearchClient                                    
+            <summary>
+            CloudsearchClient 实例。
+            </summary>
         </member>
         <member name="F:AliCloudOpenSearch.com.API.CloudsearchAnalysis.indexName">
-            统计的应用名称。                                          
-            @var string
+            <summary>
+            统计的应用名称
+            </summary>
         </member>
         <member name="F:AliCloudOpenSearch.com.API.CloudsearchAnalysis.path">
-            指定API接口的相对路径。111                                
-            @var string                                               
+            <summary>
+            指定API接口的相对路径。
+            </summary>
         </member>
         <member name="M:AliCloudOpenSearch.com.API.CloudsearchAnalysis.#ctor(System.String,AliCloudOpenSearch.com.API.CloudsearchApi)">
-            构造函数。
-            @param string $indexName 指定统计信息的应用名称。         
-            @param CloudsearchClient $client 此对象由CloudsearchClient类实例化。
+            <summary>
+            构造函数
+            </summary>
+            <param name="indexName">指定统计信息的应用名称</param>
+            <param name="client">此对象由CloudsearchClient类实例化</param>
         </member>
         <member name="M:AliCloudOpenSearch.com.API.CloudsearchAnalysis.GetTopQuery(System.Int32,System.Int32)">
-            通过指定的天数和个数，返回top query信息。                 
-            @param int $num 指定返回的记录个数。
-            @param int $days 指定统计从昨天开始向前多少天的数据。     
-            @return string                                             
+            <summary>
+            通过指定的天数和个数，返回top query信息.
+            </summary>
+            <param name="num">指定返回的记录个数</param>
+            <param name="days">指定统计从昨天开始向前多少天的数据</param>
+            <returns></returns>
         </member>
         <member name="T:AliCloudOpenSearch.com.API.CloudsearchApi">
             <summary>
@@ -462,12 +469,15 @@
             </summary>
         </member>
         <member name="F:AliCloudOpenSearch.com.API.CloudsearchApi.signatureMethod">
-            指定阿里云签名算法方式
-            @var enum('HMAC-SHA1'）
+            <summary>
+                指定阿里云签名算法方式
+                @var enum('HMAC-SHA1'）
+            </summary>
         </member>
         <member name="F:AliCloudOpenSearch.com.API.CloudsearchApi.signatureVersion">
-            指定阿里云签名算法版本
-            @var enum('HMAC-SHA1'）
+            <summary>
+                指定签名版本
+            </summary>
         </member>
         <member name="F:AliCloudOpenSearch.com.API.CloudsearchApi.timeout">
             <summary>
@@ -476,21 +486,17 @@
             </summary>
         </member>
         <member name="M:AliCloudOpenSearch.com.API.CloudsearchApi.#ctor(System.String,System.String,System.String,System.Int32,System.String,System.String,System.Int32,System.Boolean)">
-                     * 构造函数。
-                      
-                     * @param String clientId 客户唯一ID，注册用户时获得。
-                     * @param String clientSecret 客户的密钥，用于验证客户的操作合法性。
-                     * @param String host 指定host替换默认的apiURL
-                     * @param String mode 客户clientapi类型 0普通,1是aliyun方式
-                     * @param String signatureMethod 签名方式
-                     * @param String signatureVersion 签名版本
-                     * @param String timeout 操作超时时间
-                     * @param String debug 调试信息开关
-                     * 
-            <prototype>
-                public CloudsearchApi(string clientId, string clientSecret, string host = null, int mode = 0, string
-                signatureMethod = "HMAC-SHA1", string signatureVersion = "1.0", int timeout=20000, bool debug=false)
-            </prototype>
+            <summary>
+            构造函数
+            </summary>
+            <param name="clientId">客户唯一ID，注册用户时获得。</param>
+            <param name="clientSecret">客户的密钥，用于验证客户的操作合法性。</param>
+            <param name="host">指定host替换默认的apiURL</param>
+            <param name="mode">客户clientapi类型 0普通,1是aliyun方式</param>
+            <param name="signatureMethod">签名方式</param>
+            <param name="signatureVersion">签名版本</param>
+            <param name="timeout">操作超时时间</param>
+            <param name="debug">调试信息开关</param>
         </member>
         <member name="M:AliCloudOpenSearch.com.API.CloudsearchApi.getDebugInfo">
             <summary>

@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using AliCloudOpenSearch.com.API.Builder;
+#if NET45
+using System.Threading.Tasks;
+#endif
 
 namespace AliCloudOpenSearch.com.API
 {
@@ -31,6 +34,20 @@ namespace AliCloudOpenSearch.com.API
 
             return _client.ApiCall(_path, queryBuilder.BuildQueryParameter(), "GET");
         }
+
+#if NET45
+        /// <summary>
+        ///     Execute search request
+        /// </summary>
+        /// <param name="queryBuilder">QueryBuilder instance</param>
+        /// <returns>Search result</returns>
+        public async Task<string> SearchAsync(QueryBuilder queryBuilder)
+        {
+            Utilities.Guard(queryBuilder);
+            return await _client.ApiCallAsync(_path, queryBuilder.BuildQueryParameter(), "GET").ConfigureAwait(false);
+        }
+
+#endif
 
         /// <summary>
         ///     To get the search result ASAP, you can use 'Scan' function, and then call 'ScanThen', more detail

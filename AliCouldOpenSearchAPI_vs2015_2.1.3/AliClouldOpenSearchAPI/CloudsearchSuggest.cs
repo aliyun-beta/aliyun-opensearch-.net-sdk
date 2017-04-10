@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+#if NET45
+using System.Threading.Tasks;
+#endif
 
 namespace AliCloudOpenSearch.com.API
 {
@@ -63,5 +66,33 @@ namespace AliCloudOpenSearch.com.API
 
             return null;
         }
+
+#if NET45
+        /// <summary>
+        ///     Return the suggestion accoring the query and specified hit
+        /// </summary>
+        /// <param name="query">Search query without index name</param>
+        /// <param name="hit">Return size</param>
+        /// <returns></returns>
+        public async Task<string[]> GetSuggestAsync(string query, int hit)
+        {
+            var parameters = new Dictionary<string, object>();
+
+            parameters.Add("query", query);
+            parameters.Add("index_name", _applicationName);
+            parameters.Add("suggest_name", _suggestNamel);
+            parameters.Add("hit", hit);
+
+            var resp = await _client.ApiCallAsync(_path, parameters, "GET").ConfigureAwait(false);
+            var json = JObject.Parse(resp);
+
+            if (json["suggestions"] != null)
+            {
+                return ((JArray)json["suggestions"]).Select(x => x["suggestion"].ToString()).ToArray();
+            }
+
+            return null;
+        }
+#endif
     }
 }
