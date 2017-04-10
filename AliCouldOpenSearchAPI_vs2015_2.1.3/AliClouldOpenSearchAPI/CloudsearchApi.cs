@@ -15,6 +15,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using Newtonsoft.Json.Linq;
+using System.Linq;
+#if NET45
+using System.Threading.Tasks;
+using System.Net.Http;
+#endif
 
 namespace AliCloudOpenSearch.com.API
 {
@@ -87,13 +92,15 @@ namespace AliCloudOpenSearch.com.API
         /// </summary>
         private readonly int requestTimeout = 50000;
 
-
-        /// 指定阿里云签名算法方式
-        /// @var enum('HMAC-SHA1'）
+        /// <summary>
+        ///     指定阿里云签名算法方式
+        ///     @var enum('HMAC-SHA1'）
+        /// </summary>
         private readonly string signatureMethod = "HMAC-SHA1";
 
-        /// 指定阿里云签名算法版本
-        /// @var enum('HMAC-SHA1'）
+        /// <summary>
+        ///     指定签名版本
+        /// </summary>
         private readonly string signatureVersion = "1.0";
 
         /// <summary>
@@ -102,25 +109,17 @@ namespace AliCloudOpenSearch.com.API
         /// </summary>
         private readonly int timeout = 1000;
 
-
-        /**                                                          
-         * 构造函数。
-          
-         * @param String clientId 客户唯一ID，注册用户时获得。
-         * @param String clientSecret 客户的密钥，用于验证客户的操作合法性。
-         * @param String host 指定host替换默认的apiURL
-         * @param String mode 客户clientapi类型 0普通,1是aliyun方式
-         * @param String signatureMethod 签名方式
-         * @param String signatureVersion 签名版本
-         * @param String timeout 操作超时时间
-         * @param String debug 调试信息开关
-         * 
-         */
-
-        /// <prototype>
-        ///     public CloudsearchApi(string clientId, string clientSecret, string host = null, int mode = 0, string
-        ///     signatureMethod = "HMAC-SHA1", string signatureVersion = "1.0", int timeout=20000, bool debug=false)
-        /// </prototype>
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="clientId">客户唯一ID，注册用户时获得。</param>
+        /// <param name="clientSecret">客户的密钥，用于验证客户的操作合法性。</param>
+        /// <param name="host">指定host替换默认的apiURL</param>
+        /// <param name="mode">客户clientapi类型 0普通,1是aliyun方式</param>
+        /// <param name="signatureMethod">签名方式</param>
+        /// <param name="signatureVersion">签名版本</param>
+        /// <param name="timeout">操作超时时间</param>
+        /// <param name="debug">调试信息开关</param>
         public CloudsearchApi(string clientId, string clientSecret, string host = null, int mode = 1,
             string signatureMethod = "HMAC-SHA1",
             string signatureVersion = "1.0", int timeout = 20000, bool debug = false)
@@ -130,7 +129,7 @@ namespace AliCloudOpenSearch.com.API
             this.signatureMethod = signatureMethod;
             this.signatureVersion = signatureVersion;
             this.timeout = timeout;
-            requestTimeout = requestTimeout;
+            // requestTimeout = requestTimeout;
 
             this.debug = debug;
 
@@ -365,6 +364,65 @@ namespace AliCloudOpenSearch.com.API
             return rawResponse;
         }
 
+#if NET45
+        /// <summary>
+        ///     异步调用Web API。
+        /// </summary>
+        /// <param name="method">HTTP请求类型，'GET' 或 'POST'。</param>
+        /// <param name="url">WEB API的请求URL</param>
+        /// <param name="parameters">参数数组。</param>
+        /// <param name="httpOptions">http option参数数组。</param>
+        /// <param name="webRequest">默认采用socket方式请求，请根据您的空间或服务器类型进行选择 。</param>
+        /// <returns>返回decode后的HTTP response。</returns>
+        public async Task<string> ApiCallAsync(string url, Dictionary<string, object> parameters = null, string method = METHOD_POST,
+            NameValueCollection httpOptions = null, bool webRequest = true)
+        {
+            if (mode == 0)
+            {
+                url = _apiURL + url;
+                parameters = parameters ?? new Dictionary<string, object>();
+                httpOptions = httpOptions ?? new NameValueCollection();
+                parameters.Add("nonce", _makeNonce());
+                parameters.Add("client_id", _clientId);
+                parameters.Add("sign", _makeSign(parameters));
+            }
+            else if (mode == 1)
+            {
+                //阿里云签名方式
+                url = _apiURL + url;
+                parameters = parameters ?? new Dictionary<string, object>();
+                httpOptions = httpOptions ?? new NameValueCollection();
+                //parameters.Add("nonce", this._makeNonceAliyun());
+                //parameters.Add("accesskey", this._clientId);
+                //parameters.Add("timestamp", Utilities.getUnixTimeStamp());
+                //parameters.Add("signature", this._makeSignAliyun(parameters));
+
+                parameters.Add("Version", API_VERSION);
+                parameters.Add("AccessKeyId", _clientId);
+                parameters.Add("SignatureMethod", signatureMethod);
+                parameters.Add("SignatureVersion", signatureVersion);
+                parameters.Add("SignatureNonce", _makeNonceAliyun());
+                //Y-m-d\TH:i:s\Z
+                parameters.Add("Timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"));
+                parameters.Add("Signature", _makeSignAliyun(parameters, method));
+            }
+
+            JObject data;
+            if (webRequest)
+            {
+                data = await requestByWebrequestAsync(method, url, parameters, httpOptions);
+            }
+            else
+            {
+                data = await requestBySocketAsync(method, url, parameters, httpOptions).ConfigureAwait(false);
+            }
+
+            var rawResponse = data["rawResponse"].ToString();
+            return rawResponse;
+        }
+
+#endif
+
         /// <summary>
         ///     HttpWebRequest 版本
         ///     使用方法：
@@ -442,6 +500,79 @@ namespace AliCloudOpenSearch.com.API
 
             return resultJObject;
         }
+
+#if NET45
+        /// <summary>
+        ///     异步 HttpWebRequest 版本
+        ///     使用方法：
+        ///     var post_string = new NameValueCollection();;
+        ///     post_string.Add(...);
+        ///     await requestByWebrequestAsync("POST", "http://alicloud.com/",post_string);
+        /// </summary>
+        /// <param name="method">发送方式，POST/GET</param>
+        /// <param name="url">WEB API的请求URL</param>
+        /// <param name="parameters">参数数组。</param>
+        /// <param name="httpOptions">http option参数数组。</param>
+        /// <returns>返回decode后的HTTP response。</returns>
+        protected virtual async Task<JObject> requestByWebrequestAsync(string method, string url, Dictionary<string, object> parameters,
+           NameValueCollection httpOptions = null)
+        {
+            var args = BuildParams(parameters);
+            
+            if (debug)
+            {
+                debugInfo.Add(string.Format("encodedQueryString:   {0}", url));
+                debugInfo.Add(string.Format("decodedQueryString:   {0}", HttpUtility.UrlDecode(url)));
+            }
+
+            HttpClient httpClient;
+            var handler = new HttpClientHandler();
+            handler.AutomaticDecompression = DecompressionMethods.GZip;
+            
+            httpClient = new HttpClient(handler);
+
+            // set ExpectContinue to false, so it will send only one http package.
+            httpClient.DefaultRequestHeaders.ExpectContinue = false;
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            httpClient.DefaultRequestHeaders.Add("user-agent", string.Format("opensearch/.net sdk {0}", SDK_VERSION));
+            httpClient.Timeout = new TimeSpan(0, 0, 0, 0, timeout + requestTimeout);
+            
+            HttpResponseMessage resp;
+
+            if (method == "POST")
+            {
+                var keyvaluepair = parameters.ToDictionary(x => x.Key, x => x.Value as string);
+                HttpContent content = new FormUrlEncodedContent(keyvaluepair);
+                resp = await httpClient.PostAsync(url, content);
+            }
+            else
+            {
+                if (method == "GET")
+                {
+                    url += "?" + args;
+                    args = string.Empty;
+                    //Console.WriteLine(url);
+                }
+                resp = await httpClient.GetAsync(url);
+            }
+
+            var responseString = string.Empty;
+            using (var sr = new StreamReader(await resp.Content.ReadAsStreamAsync()))
+            {
+                responseString = await sr.ReadToEndAsync();
+                sr.Close();
+            }
+            
+            var resultJObject = new JObject();
+            resultJObject["httpCode"] = (int)resp.StatusCode;
+            //resultJObject["rawResponse"] = JObject.Parse(responseString);
+            resultJObject["rawResponse"] = responseString;
+
+            return resultJObject;
+        }
+#endif
+
 
         /// <summary>
         ///     Socket版本
@@ -528,6 +659,100 @@ namespace AliCloudOpenSearch.com.API
 
             return ret;
         }
+
+
+#if NET45
+
+        /// <summary>
+        ///     异步Socket版本
+        ///     使用方法：
+        ///     var post_string = new NameValueCollection();;
+        ///     post_string.Add(...);
+        ///     await requestBySocketAsync("POST", "http://alicloud.com/",post_string);
+        /// </summary>
+        /// <param name="method">HTTP请求类型，'GET' 或 'POST'。</param>
+        /// <param name="url">WEB API的请求URL</param>
+        /// <param name="parameters">参数数组。</param>
+        /// <param name="httpOptions">http option参数数组。</param>
+        /// <returns>返回decode后的HTTP response。</returns>
+        private async Task<JObject> requestBySocketAsync(string method, string url, Dictionary<string, object> parameters,
+            NameValueCollection httpOptions)
+        {
+            var ub = new UriBuilder(url);
+            var remote_server = ub.Host;
+            var remote_path = ub.Path;
+            method = method.ToUpper();
+
+            var parse = parseHost(url);
+            var data = Utilities.http_build_query(parameters);
+
+            var content = buildRequestContent(parse, method, data);
+            //Console.WriteLine(data);
+            var receivceStr = string.Empty;
+            var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.SendTimeout = requestTimeout;
+            socket.ReceiveTimeout = requestTimeout;
+
+            // Set default receive timeout to 10 seconds
+            //socSocket
+            try
+            {
+                //socket.Connect(ub.Host, ub.Port);
+                await Task.Factory.FromAsync(socket.BeginConnect(ub.Host, ub.Port, null, null), iar => {
+                    if (!socket.Connected)
+                    {
+                        // NOTE, MUST CLOSE THE SOCKET
+                        socket.Close();
+                        throw new ApplicationException("Failed to connect server.");
+                    }
+                }).ConfigureAwait(false);
+
+                var contentInByte = Encoding.UTF8.GetBytes(content);
+                
+                socket.Send(contentInByte);
+
+                receivceStr = string.Empty;
+                byte[] recvBytes = new byte[1024];
+                var bytesList = new List<byte>();
+                var bytes = 0;
+                while (true)
+                {
+                    await Task.Factory.FromAsync(socket.BeginReceive(recvBytes, 0, recvBytes.Length, SocketFlags.None, null, null), iar => {
+                        bytes = socket.EndReceive(iar);
+                    }).ConfigureAwait(false);
+
+                    if (bytes <= 0)
+                    {
+                        break;
+                    }
+
+                    for (var i = 0; i < bytes; ++i)
+                    {
+                        bytesList.Add(recvBytes[i]);
+                    }
+                }
+                receivceStr = Encoding.UTF8.GetString(bytesList.ToArray(), 0, bytesList.Count);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            finally
+            {
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
+            }
+
+            var ret = new JObject();
+            var parsedRespon = parseResponse(receivceStr);
+            ret["httpCode"] = Convert.ToInt32(parsedRespon["info"]["http_code"].ToString());
+            ret["rawResponse"] = parsedRespon["result"];
+
+            return ret;
+        }
+
+#endif
 
         /// <summary>
         ///     分析Web API的请求Uri
@@ -661,5 +886,6 @@ namespace AliCloudOpenSearch.com.API
 
             throw new Exception(errorCode + ": " + response);
         }
+
     }
 }
