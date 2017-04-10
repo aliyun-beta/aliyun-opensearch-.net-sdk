@@ -1,0 +1,17 @@
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\AliCloudOpenSearchAPI.dll.config
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\AliCloudOpenSearchAPI.dll
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\AliCloudOpenSearchAPI.pdb
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\AliCloudOpenSearchAPI.xml
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\Newtonsoft.Json.dll
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\Newtonsoft.Json.xml
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\obj\DebugNET45\AliCloudOpenSearchAPI.csprojResolveAssemblyReference.cache
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\obj\DebugNET45\AliCloudOpenSearchAPI.dll
+E:\Workspace\GitHub\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\obj\DebugNET45\AliCloudOpenSearchAPI.pdb
+C:\Workspace\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\AliCloudOpenSearchAPI.dll.config
+C:\Workspace\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\AliCloudOpenSearchAPI.dll
+C:\Workspace\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\AliCloudOpenSearchAPI.pdb
+C:\Workspace\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\AliCloudOpenSearchAPI.xml
+C:\Workspace\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\bin\DebugNET45\Newtonsoft.Json.dll
+C:\Workspace\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\obj\DebugNET45\AliCloudOpenSearchAPI.csprojResolveAssemblyReference.cache
+C:\Workspace\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\obj\DebugNET45\AliCloudOpenSearchAPI.dll
+C:\Workspace\aliyun-opensearch-.net-sdk\AliCouldOpenSearchAPI_vs2015_2.1.3\AliClouldOpenSearchAPI\obj\DebugNET45\AliCloudOpenSearchAPI.pdb
