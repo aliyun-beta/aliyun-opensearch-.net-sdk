@@ -67,17 +67,18 @@
 	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   
-    <ItemGroup Condition=" '$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+  <ItemGroup Condition=" '$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\json.net\Net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Lib\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='DebugNET45' Or '$(Configuration)'=='ReleaseNET45'">
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\json.net\Net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Lib\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   
   <ItemGroup>
