@@ -15,6 +15,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using Newtonsoft.Json.Linq;
+#if NET45
+using System.Threading.Tasks;
+using System.Net.Http;
+#endif
 
 namespace AliCloudOpenSearch.com.API
 {
@@ -365,6 +369,12 @@ namespace AliCloudOpenSearch.com.API
             return rawResponse;
         }
 
+#if NET45
+        
+
+
+#endif
+
         /// <summary>
         ///     HttpWebRequest 版本
         ///     使用方法：
@@ -529,6 +539,98 @@ namespace AliCloudOpenSearch.com.API
             return ret;
         }
 
+
+#if NET45
+
+        ///// <summary>
+        /////     Socket版本
+        /////     使用方法：
+        /////     var post_string = new NameValueCollection();;
+        /////     post_string.Add(...);
+        /////     requestBySocket("POST", "http://alicloud.com/",post_string);
+        ///// </summary>
+        ///// <param name="method">HTTP请求类型，'GET' 或 'POST'。</param>
+        ///// <param name="url">WEB API的请求URL</param>
+        ///// <param name="parameters">参数数组。</param>
+        ///// <param name="httpOptions">http option参数数组。</param>
+        ///// <returns>返回decode后的HTTP response。</returns>
+        //private async Task<JObject> requestBySocketAsync(string method, string url, Dictionary<string, object> parameters,
+        //    NameValueCollection httpOptions)
+        //{
+        //    var ub = new UriBuilder(url);
+        //    var remote_server = ub.Host;
+        //    var remote_path = ub.Path;
+        //    method = method.ToUpper();
+
+        //    var parse = parseHost(url);
+        //    var data = Utilities.http_build_query(parameters);
+
+        //    var content = buildRequestContent(parse, method, data);
+        //    //Console.WriteLine(data);
+        //    var receivceStr = string.Empty;
+        //    var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        //    socket.SendTimeout = requestTimeout;
+        //    socket.ReceiveTimeout = requestTimeout;
+
+        //    // Set default receive timeout to 10 seconds
+        //    //socSocket
+        //    try
+        //    {
+        //        //socket.Connect(ub.Host, ub.Port);
+        //        var result = socket.BeginConnect(ub.Host, ub.Port, null, null);
+        //        var success = result.AsyncWaitHandle.WaitOne(timeout, true);
+        //        if (!socket.Connected)
+        //        {
+        //            // NOTE, MUST CLOSE THE SOCKET
+        //            socket.Close();
+        //            throw new ApplicationException("Failed to connect server.");
+        //        }
+
+
+        //        var contentInByte = Encoding.UTF8.GetBytes(content);
+        //        socket.SendAsync()
+        //        socket.Send(contentInByte);
+
+        //        receivceStr = string.Empty;
+        //        var recvBytes = new byte[1024];
+        //        var bytesList = new List<byte>();
+        //        var bytes = 0;
+        //        while (true)
+        //        {
+        //            bytes = socket.Receive(recvBytes, recvBytes.Length, SocketFlags.None);
+        //            if (bytes <= 0)
+        //            {
+        //                break;
+        //            }
+
+        //            for (var i = 0; i < bytes; ++i)
+        //            {
+        //                bytesList.Add(recvBytes[i]);
+        //            }
+        //        }
+        //        receivceStr = Encoding.UTF8.GetString(bytesList.ToArray(), 0, bytesList.Count);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        socket.Shutdown(SocketShutdown.Both);
+        //        socket.Close();
+        //    }
+
+        //    var ret = new JObject();
+        //    var parsedRespon = parseResponse(receivceStr);
+        //    ret["httpCode"] = Convert.ToInt32(parsedRespon["info"]["http_code"].ToString());
+        //    ret["rawResponse"] = parsedRespon["result"];
+
+        //    return ret;
+        //}
+
+#endif
+
         /// <summary>
         ///     分析Web API的请求Uri
         /// </summary>
@@ -661,5 +763,43 @@ namespace AliCloudOpenSearch.com.API
 
             throw new Exception(errorCode + ": " + response);
         }
+
+
+#if NET45
+
+        private HttpClient BuildHttpClient(string httpUserName = "", string httpPassword = "",
+           IWebProxy proxy = null, String proxyAccount = "", String ProxyPassword = "", bool isDecompreGzip = true, int timeout = 360000, Boolean isKeepAlive = false, IDictionary<string, string> headers = null, ICredentials credentials = null,
+           bool isExpectContinue = false)
+        {
+            HttpClient httpClient;
+            var handler = new HttpClientHandler();
+
+            if (proxy != null)
+            {
+                proxy.Credentials = new NetworkCredential(proxyAccount, ProxyPassword);
+                handler.Proxy = proxy;
+            }
+            if (isDecompreGzip)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.GZip;
+            }
+            if (!string.IsNullOrEmpty(httpUserName) && !string.IsNullOrEmpty(httpPassword))
+            {
+                handler.Credentials = new NetworkCredential(httpUserName, httpPassword);
+            }
+            if (credentials != null)
+            {
+                handler.Credentials = credentials;
+            }
+            httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.ExpectContinue = isExpectContinue;
+            if (isDecompreGzip) httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            if (isKeepAlive) httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
+            if (headers != null) headers.ToList().ForEach(h => httpClient.DefaultRequestHeaders.Add(h.Key, h.Value));
+            httpClient.Timeout = new TimeSpan(0, 0, 0, 0, timeout);
+
+            return httpClient;
+        }
+#endif
     }
 }
