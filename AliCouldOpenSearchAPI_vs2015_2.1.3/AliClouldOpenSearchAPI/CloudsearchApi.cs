@@ -767,39 +767,39 @@ namespace AliCloudOpenSearch.com.API
 
 #if NET45
 
-        private HttpClient BuildHttpClient(string httpUserName = "", string httpPassword = "",
-           IWebProxy proxy = null, String proxyAccount = "", String ProxyPassword = "", bool isDecompreGzip = true, int timeout = 360000, Boolean isKeepAlive = false, IDictionary<string, string> headers = null, ICredentials credentials = null,
-           bool isExpectContinue = false)
-        {
-            HttpClient httpClient;
-            var handler = new HttpClientHandler();
+        //private HttpClient BuildHttpClient(string httpUserName = "", string httpPassword = "",
+        //   IWebProxy proxy = null, String proxyAccount = "", String ProxyPassword = "", bool isDecompreGzip = true, int timeout = 360000, Boolean isKeepAlive = false, IDictionary<string, string> headers = null, ICredentials credentials = null,
+        //   bool isExpectContinue = false)
+        //{
+        //    HttpClient httpClient;
+        //    var handler = new HttpClientHandler();
 
-            if (proxy != null)
-            {
-                proxy.Credentials = new NetworkCredential(proxyAccount, ProxyPassword);
-                handler.Proxy = proxy;
-            }
-            if (isDecompreGzip)
-            {
-                handler.AutomaticDecompression = DecompressionMethods.GZip;
-            }
-            if (!string.IsNullOrEmpty(httpUserName) && !string.IsNullOrEmpty(httpPassword))
-            {
-                handler.Credentials = new NetworkCredential(httpUserName, httpPassword);
-            }
-            if (credentials != null)
-            {
-                handler.Credentials = credentials;
-            }
-            httpClient = new HttpClient(handler);
-            httpClient.DefaultRequestHeaders.ExpectContinue = isExpectContinue;
-            if (isDecompreGzip) httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            if (isKeepAlive) httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
-            if (headers != null) headers.ToList().ForEach(h => httpClient.DefaultRequestHeaders.Add(h.Key, h.Value));
-            httpClient.Timeout = new TimeSpan(0, 0, 0, 0, timeout);
+        //    if (proxy != null)
+        //    {
+        //        proxy.Credentials = new NetworkCredential(proxyAccount, ProxyPassword);
+        //        handler.Proxy = proxy;
+        //    }
+        //    if (isDecompreGzip)
+        //    {
+        //        handler.AutomaticDecompression = DecompressionMethods.GZip;
+        //    }
+        //    if (!string.IsNullOrEmpty(httpUserName) && !string.IsNullOrEmpty(httpPassword))
+        //    {
+        //        handler.Credentials = new NetworkCredential(httpUserName, httpPassword);
+        //    }
+        //    if (credentials != null)
+        //    {
+        //        handler.Credentials = credentials;
+        //    }
+        //    httpClient = new HttpClient(handler);
+        //    httpClient.DefaultRequestHeaders.ExpectContinue = isExpectContinue;
+        //    if (isDecompreGzip) httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+        //    if (isKeepAlive) httpClient.DefaultRequestHeaders.Connection.Add("keep-alive");
+        //    if (headers != null) headers.ToList().ForEach(h => httpClient.DefaultRequestHeaders.Add(h.Key, h.Value));
+        //    httpClient.Timeout = new TimeSpan(0, 0, 0, 0, timeout);
 
-            return httpClient;
-        }
+        //    return httpClient;
+        //}
 #endif
     }
 }
