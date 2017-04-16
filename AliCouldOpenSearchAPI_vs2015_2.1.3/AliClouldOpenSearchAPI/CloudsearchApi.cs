@@ -282,11 +282,13 @@ namespace AliCloudOpenSearch.com.API
         private string _makeNonceAliyun()
         {
             var stamp = Utilities.getUnixTimeStamp();
-            var ra = new Random();
-            var rand = ra.Next(1000, 9999);
+            //var ra = new Random();
+            //var rand = ra.Next(1000, 9999);
+            var guid = Guid.NewGuid().ToString();
             var sb = new StringBuilder();
+            sb.Append(guid);
+            sb.Append("~");
             sb.Append(stamp);
-            sb.Append(rand);
             return sb.ToString();
         }
 

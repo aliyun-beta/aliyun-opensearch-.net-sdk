@@ -4,6 +4,7 @@
     {
         Json = 0,
         Xml,
-        Protobuf
+        Protobuf,
+        FullJson,
     }
 }
