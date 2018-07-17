@@ -298,6 +298,8 @@ namespace AliCloudOpenSearch.com.API
         /// <param name="docIds">Doc ids which will be deleted</param>
         public CloudsearchDoc Remove(params string[] docIds)
         {
+            /*
+             * 
             Utilities.Guard(docIds);
 
             foreach (var docId in docIds)
@@ -305,6 +307,25 @@ namespace AliCloudOpenSearch.com.API
                 var doc = new Dictionary<string, object>();
                 doc["cmd"] = "delete";
                 doc["fields"] = new {id = docId};
+
+                _batchExecuteCachedDocs.Add(doc);
+            }          
+            * */
+            return this.Remove("id", docIds);
+        }
+
+        public CloudsearchDoc Remove(string pkField, params string[] docIds)
+        {
+            Utilities.Guard(docIds);
+
+            foreach (var docId in docIds)
+            {
+                dynamic fields = new object();
+                fields[pkField] = docId;
+
+                var doc = new Dictionary<string, object>();
+                doc["cmd"] = "delete";
+                doc["fields"] = fields;
 
                 _batchExecuteCachedDocs.Add(doc);
             }
