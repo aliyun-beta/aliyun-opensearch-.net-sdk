@@ -329,6 +329,9 @@ namespace AliCloudOpenSearch.com.API
                 fields[pkField] = docId;
 
                 var doc = new Dictionary<string, object>();
+                var fields = new Dictionary<string, object>();
+                fields["id"] = docId;
+
                 doc["cmd"] = "delete";
                 doc["fields"] = fields;
 
