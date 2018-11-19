@@ -325,12 +325,10 @@ namespace AliCloudOpenSearch.com.API
 
             foreach (var docId in docIds)
             {
-                dynamic fields = new ExpandoObject();
-                fields[pkField] = docId;
-
                 var doc = new Dictionary<string, object>();
+
                 var fields = new Dictionary<string, object>();
-                fields["id"] = docId;
+                fields[pkField] = docId;
 
                 doc["cmd"] = "delete";
                 doc["fields"] = fields;
