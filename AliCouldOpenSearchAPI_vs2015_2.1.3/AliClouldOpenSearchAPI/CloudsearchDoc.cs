@@ -303,8 +303,11 @@ namespace AliCloudOpenSearch.com.API
             foreach (var docId in docIds)
             {
                 var doc = new Dictionary<string, object>();
+                var fields = new Dictionary<string, object>();
+                fields["id"] = docId;
+
                 doc["cmd"] = "delete";
-                doc["fields"] = new {id = docId};
+                doc["fields"] = fields;
 
                 _batchExecuteCachedDocs.Add(doc);
             }
